@@ -1,0 +1,25 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Auth.Master.cs" Inherits="bluesky.AuthMaster" %>
+
+<!DOCTYPE html>
+<html lang="es">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+        <asp:ContentPlaceHolder ID="TitleContent" runat="server" />BlueSky – Autenticación
+    </title>
+
+    <link href="<%: ResolveUrl("~/Content/css/bootstrap.min.css") %>" rel="stylesheet" />
+    <link href="<%: ResolveUrl("~/Content/css/site.css") %>" rel="stylesheet" />
+    <link href="<%: ResolveUrl("~/Content/css/IniciarSesion.css") %>" rel="stylesheet" />
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
+</head>
+<body>
+    <form runat="server" class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
+        <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+    </form>
+
+    <script src="<%: ResolveUrl("~/Scripts/bootstrap.bundle.min.js") %>"></script>
+</body>
+</html>
