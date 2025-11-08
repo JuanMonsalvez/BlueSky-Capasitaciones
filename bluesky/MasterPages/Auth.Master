@@ -1,25 +1,43 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Auth.Master.cs" Inherits="bluesky.AuthMaster" %>
-
 <!DOCTYPE html>
 <html lang="es">
 <head runat="server">
+    <title>Acceso - BlueSky</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>
-        <asp:ContentPlaceHolder ID="TitleContent" runat="server" />BlueSky – Autenticación
-    </title>
 
-    <link href="<%: ResolveUrl("~/Content/css/bootstrap.min.css") %>" rel="stylesheet" />
-    <link href="<%: ResolveUrl("~/Content/css/site.css") %>" rel="stylesheet" />
-    <link href="<%: ResolveUrl("~/Content/css/IniciarSesion.css") %>" rel="stylesheet" />
+    <!-- Tus CSS -->
+    <link href="<%: ResolveUrl("~/css/bootstrap.min.css") %>" rel="stylesheet" />
+    <link href="<%: ResolveUrl("~/css/app.css") %>" rel="stylesheet" />
 
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
 </head>
 <body>
-    <form runat="server" class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
-        <asp:ContentPlaceHolder ID="MainContent" runat="server" />
-    </form>
+    <form id="form1" runat="server">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="<%: ResolveUrl("~/Public/Default.aspx") %>">BlueSky</a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <% if (Session["UsuarioId"] != null) { %>
+                        <li class="navbar-text">Hola, <%= Session["UsuarioNombre"] %></li>
+                        <li><a href="<%: ResolveUrl("~/Auth/CerrarSesion.aspx") %>">Salir</a></li>
+                    <% } else { %>
+                        <li class="navbar-text">¿No tienes cuenta?</li>
+                        <li><a href="<%: ResolveUrl("~/Auth/CrearSesion.aspx") %>">Crear cuenta</a></li>
+                    <% } %>
+                </ul>
+            </div>
+        </nav>
 
-    <script src="<%: ResolveUrl("~/Scripts/bootstrap.bundle.min.js") %>"></script>
+        <div class="container" style="padding-top:20px; max-width:1024px;">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </div>
+
+        <!-- JS -->
+        <script src="<%: ResolveUrl("~/js/jquery.min.js") %>"></script>
+        <script src="<%: ResolveUrl("~/js/bootstrap.min.js") %>"></script>
+    </form>
 </body>
 </html>

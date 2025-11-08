@@ -1,5 +1,7 @@
-﻿<%@ Page Title="Mis Cursos" Language="C#" MasterPageFile="~/MasterPages/Site.Master"
-    AutoEventWireup="true" CodeBehind="Cursos.aspx.cs" Inherits="bluesky.Usuario.Cursos" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPages/Site.Master"
+    AutoEventWireup="true" CodeBehind="Cursos.aspx.cs"
+    Inherits="bluesky.Usuario.Cursos" %>
+
 
 <asp:Content ID="HeadCursos" ContentPlaceHolderID="HeadContent" runat="server"></asp:Content>
 

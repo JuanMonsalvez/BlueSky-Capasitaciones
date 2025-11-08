@@ -1,30 +1,37 @@
-﻿<%@ Page Title="Iniciar Sesión" Language="C#" MasterPageFile="~/MasterPages/Auth.Master"
-    AutoEventWireup="true" CodeBehind="IniciarSesion.aspx.cs" Inherits="bluesky.Auth.IniciarSesion" %>
+﻿<%@ Page Title="Iniciar sesión" Language="C#" MasterPageFile="~/MasterPages/Auth.Master"
+    AutoEventWireup="true" CodeBehind="IniciarSesion.aspx.cs" Inherits="bluesky.IniciarSesion" %>
 
-<asp:Content ID="HeadAuthLogin" ContentPlaceHolderID="HeadContent" runat="server">
-    <!-- Opcional: estilos/metas específicos -->
-</asp:Content>
-
-<asp:Content ID="MainAuthLogin" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="auth-page">
-        <div class="auth-card p-4">
-            <h2 class="text-center mb-4">Iniciar sesión</h2>
+        <div class="auth-card panel panel-default" style="max-width:480px;margin:40px auto;padding:24px;">
+            <h2 class="text-center" style="margin-bottom:16px;">Iniciar sesión</h2>
 
-            <div class="mb-3">
-                <label class="form-label">Correo electrónico</label>
-                <input type="email" class="form-control" placeholder="tu@correo.com" required />
+            <asp:ValidationSummary ID="valSummary" runat="server" CssClass="text-danger" />
+
+            <div class="form-group">
+                <label for="txtCorreo">Correo electrónico</label>
+                <asp:TextBox ID="txtCorreo" runat="server" CssClass="form-control" />
+                <asp:RequiredFieldValidator ID="reqCorreo" runat="server"
+                    ControlToValidate="txtCorreo" ErrorMessage="El correo es obligatorio"
+                    CssClass="text-danger" Display="Dynamic" />
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Contraseña</label>
-                <input type="password" class="form-control" placeholder="********" required />
+            <div class="form-group">
+                <label for="txtPassword">Contraseña</label>
+                <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-control" />
+                <asp:RequiredFieldValidator ID="reqPass" runat="server"
+                    ControlToValidate="txtPassword" ErrorMessage="La contraseña es obligatoria"
+                    CssClass="text-danger" Display="Dynamic" />
             </div>
 
-            <a href="<%: ResolveUrl("~/Usuario/Cursos.aspx") %>" class="btn btn-primary w-100">Entrar</a>
+            <asp:Button ID="btnLogin" runat="server" Text="Entrar" CssClass="btn btn-primary btn-block"
+                OnClick="btnLogin_Click" />
 
-            <div class="text-center mt-3">
-                <a href="<%: ResolveUrl("~/Auth/OlvidasteContrasena.aspx") %>">¿Olvidaste tu contraseña?</a><br />
-                <a href="<%: ResolveUrl("~/Auth/CrearSesion.aspx") %>">Crear cuenta</a>
+            <asp:Label ID="lblMensaje" runat="server" CssClass="text-danger" EnableViewState="false"
+                Style="display:block;margin-top:12px;"></asp:Label>
+
+            <div style="margin-top:10px;">
+                <a href="~/Auth/OlvidasteContrasena.aspx" runat="server">¿Olvidaste tu contraseña?</a>
             </div>
         </div>
     </div>
