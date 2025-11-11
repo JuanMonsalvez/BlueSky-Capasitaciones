@@ -18,8 +18,10 @@ namespace bluesky.Models
         [Required, StringLength(256)]
         public string PasswordHash { get; set; }
 
+        public DateTime? FechaNacimiento { get; set; } // 👈 Nuevo campo agregado
+
         public int? RolId { get; set; }
-        [ForeignKey("RolId")] public virtual Rol Rol { get; set; }
+        [ForeignKey(nameof(RolId))] public virtual Rol Rol { get; set; }
 
         public DateTime FechaRegistro { get; set; } = DateTime.UtcNow;
         public bool Activo { get; set; } = true;

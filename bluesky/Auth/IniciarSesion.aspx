@@ -33,6 +33,12 @@
             <div style="margin-top:10px;">
                 <a href="~/Auth/OlvidasteContrasena.aspx" runat="server">¿Olvidaste tu contraseña?</a>
             </div>
+
+            <div style="margin-top:8px;">
+                ¿No tienes cuenta?
+                <a href="~/Auth/CrearSesion.aspx">Crear una ahora</a>
+            </div>
+
         </div>
     </div>
 </asp:Content>

@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Web.UI;
+using System.Web;
 using bluesky.Services.Security;
 
 namespace bluesky.App_Code
 {
-    /// <summary>
-    /// Página base para usuarios autenticados.
-    /// Redirige automáticamente al login si no hay sesión activa.
-    /// </summary>
-    public class ProtectedPage : Page
+    public class ProtectedPage : System.Web.UI.Page
     {
         protected override void OnLoad(EventArgs e)
         {
-            AuthHelper.EnsureAuthenticatedOrRedirect("~/IniciarSesion.aspx");
+            // 1) Requiere sesión
+            AuthHelper.EnsureAuthenticatedOrRedirect("~/Auth/IniciarSesion.aspx");
+
+            // 2) Evita cache de navegador (back button)
+            AuthHelper.ApplyNoCache(Response);
+
             base.OnLoad(e);
         }
     }

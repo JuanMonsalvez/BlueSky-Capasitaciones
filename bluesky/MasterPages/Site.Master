@@ -4,72 +4,66 @@
 <head runat="server">
     <title>BlueSky Financial</title>
     <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Tus CSS (Bootstrap, app.css, etc.) -->
+    <!-- Bootstrap básico; ajusta a tus rutas -->
     <link href="<%: ResolveUrl("~/css/bootstrap.min.css") %>" rel="stylesheet" />
-    <link href="<%: ResolveUrl("~/css/app.css") %>" rel="stylesheet" />
+    <link href="<%: ResolveUrl("~/content/css/app.css") %>" rel="stylesheet" />
 
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
 </head>
 <body>
     <form id="form1" runat="server">
-
-        <!-- Topbar / Navbar -->
+        <!-- NAVBAR -->
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="<%: ResolveUrl("~/Public/Default.aspx") %>">
-                        BlueSky
-                    </a>
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-nav">
-                        <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-                    </button>
+                    <a class="navbar-brand" href="<%: ResolveUrl("~/") %>">BlueSky</a>
                 </div>
 
-                <div class="collapse navbar-collapse" id="bs-nav">
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <!-- IZQUIERDA: menú público -->
                     <ul class="nav navbar-nav">
-                        <li><a href="<%: ResolveUrl("~/Public/Default.aspx") %>">Inicio</a></li>
-
-                        <%-- Área de Usuario (requiere login, visual) --%>
-                        <li><a href="<%: ResolveUrl("~/Usuario/Cursos.aspx") %>">Mis cursos</a></li>
-                        <li><a href="<%: ResolveUrl("~/Usuario/MiProgreso.aspx") %>">Mi progreso</a></li>
-
-                        <%-- Menú Admin solo si rol = Admin --%>
-                        <% if (bluesky.SiteMaster.IsAdmin(Session)) { %>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="<%: ResolveUrl("~/Admin/AdminDashboard.aspx") %>">Dashboard</a></li>
-                                    <li><a href="<%: ResolveUrl("~/Admin/AdminCursos.aspx") %>">Cursos</a></li>
-                                    <li><a href="<%: ResolveUrl("~/Admin/AdminUsuarios.aspx") %>">Usuarios</a></li>
-                                    <li><a href="<%: ResolveUrl("~/Admin/AdminReportes.aspx") %>">Reportes</a></li>
-                                </ul>
-                            </li>
-                        <% } %>
+                        <li><a href="<%: ResolveUrl("~/") %>">Inicio</a></li>
+                        <li><a href="<%: ResolveUrl("~/Usuario/Cursos.aspx") %>">Cursos</a></li>
                     </ul>
 
+                    <!-- DERECHA: zona autenticación -->
                     <ul class="nav navbar-nav navbar-right">
-                        <% if (Session["UsuarioId"] != null) { %>
-                            <li class="navbar-text">
-                                <span class="glyphicon glyphicon-user"></span>
-                                <asp:Label ID="lblUsuario" runat="server" />
-                            </li>
+
+                        <!-- Anónimo -->
+                        <asp:PlaceHolder ID="phAnon" runat="server" Visible="false">
+                            <li><a href="<%: ResolveUrl("~/Auth/IniciarSesion.aspx") %>">Iniciar sesión</a></li>
+                            <li><a href="<%: ResolveUrl("~/Auth/CrearSesion.aspx") %>">Crear cuenta</a></li>
+                        </asp:PlaceHolder>
+
+                        <!-- Autenticado (común) -->
+                        <asp:PlaceHolder ID="phAuth" runat="server" Visible="false">
+                            <!-- Menú Admin solo si rol = Admin -->
+                            <asp:PlaceHolder ID="phAdmin" runat="server">
+                                <li id="liAdmin" runat="server" class="dropdown admin-menu" style="display:none;">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        Administración <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="<%: ResolveUrl("~/Admin/AdminDashboard.aspx") %>">Panel principal</a></li>
+                                        <li><a href="<%: ResolveUrl("~/Admin/AdminUsuarios.aspx") %>">Usuarios</a></li>
+                                        <li><a href="<%: ResolveUrl("~/Admin/AdminCursos.aspx") %>">Cursos</a></li>
+                                        <li><a href="<%: ResolveUrl("~/Admin/AdminReportes.aspx") %>">Reportes</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="<%: ResolveUrl("~/Admin/CursoEditar.aspx") %>">Editar Curso</a></li>
+                                    </ul>
+                                </li>
+                            </asp:PlaceHolder>
+
+                            <li class="navbar-text">Hola, <asp:Label ID="lblUsuario" runat="server" /></li>
                             <li>
-                                <a href="<%: ResolveUrl("~/Auth/CerrarSesion.aspx") %>">
-                                    <span class="glyphicon glyphicon-log-out"></span> Salir
-                                </a>
+                                <asp:LinkButton ID="btnLogout" runat="server" CssClass="navbar-link" OnClick="btnLogout_Click">
+                                    Cerrar sesión
+                                </asp:LinkButton>
                             </li>
-                        <% } else { %>
-                            <li>
-                                <a href="<%: ResolveUrl("~/Auth/IniciarSesion.aspx") %>">
-                                    <span class="glyphicon glyphicon-log-in"></span> Iniciar sesión
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<%: ResolveUrl("~/Auth/CrearSesion.aspx") %>">Crear cuenta</a>
-                            </li>
-                        <% } %>
+                        </asp:PlaceHolder>
                     </ul>
                 </div>
             </div>
@@ -79,8 +73,8 @@
             <asp:ContentPlaceHolder ID="MainContent" runat="server" />
         </div>
 
-        <!-- JS (jQuery/Bootstrap) -->
-        <script src="<%: ResolveUrl("~/js/jquery.min.js") %>"></script>
+        <!-- jQuery + Bootstrap; tu Global ya mapea jquery para validadores, pero aquí incluimos para la UI -->
+        <script src="<%: ResolveUrl("~/js/jquery-3.7.1.min.js") %>"></script>
         <script src="<%: ResolveUrl("~/js/bootstrap.min.js") %>"></script>
     </form>
 </body>

@@ -7,7 +7,7 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace bluesky
+namespace bluesky.Auth
 {
 
 

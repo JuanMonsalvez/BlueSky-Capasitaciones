@@ -1,7 +1,3 @@
-D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.AssemblyReference.cache
-D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.InitAuth.resources
-D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.GenerateResource.cache
-D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.CoreCompileInputs.cache
 D:\BlueSky-Capasitaciones\bluesky\bin\bluesky.dll.config
 D:\BlueSky-Capasitaciones\bluesky\bin\bluesky.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\bluesky.pdb
@@ -70,7 +66,6 @@ D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.Bcl.HashCode.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.EntityFrameworkCore.Abstractions.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.EntityFrameworkCore.dll
-D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.EntityFrameworkCore.Relational.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.Extensions.Caching.Abstractions.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.Extensions.Caching.Memory.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.Extensions.Configuration.Abstractions.dll
@@ -99,10 +94,7 @@ D:\BlueSky-Capasitaciones\bluesky\bin\System.Numerics.Vectors.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\System.Runtime.CompilerServices.Unsafe.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\System.Threading.Tasks.Extensions.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\System.Web.Optimization.dll
-D:\BlueSky-Capasitaciones\bluesky\bin\Ubiety.Dns.Core.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\WebGrease.dll
-D:\BlueSky-Capasitaciones\bluesky\bin\ZstdNet.dll
-D:\BlueSky-Capasitaciones\bluesky\bin\ZstdSharp.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\Antlr3.Runtime.pdb
 D:\BlueSky-Capasitaciones\bluesky\bin\BouncyCastle.Crypto.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\BouncyCastle.Cryptography.xml
@@ -119,7 +111,6 @@ D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.Bcl.HashCode.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.EntityFrameworkCore.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.EntityFrameworkCore.Abstractions.xml
-D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.EntityFrameworkCore.Relational.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.Extensions.Caching.Abstractions.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.Extensions.Caching.Memory.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\Microsoft.Extensions.Configuration.xml
@@ -146,6 +137,12 @@ D:\BlueSky-Capasitaciones\bluesky\bin\System.Threading.Tasks.Extensions.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\System.Web.Optimization.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\es\Microsoft.AspNet.FriendlyUrls.resources.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\es\System.Web.Optimization.resources.dll
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.AssemblyReference.cache
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.InitAuth.resources
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.Inicial.resources
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.AgregarCampoTelefonoAUsuarios.resources
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.GenerateResource.cache
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.CoreCompileInputs.cache
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.Up2Date
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.dll
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.pdb

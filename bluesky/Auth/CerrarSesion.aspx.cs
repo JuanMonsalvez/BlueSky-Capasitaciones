@@ -1,15 +1,22 @@
 ﻿using System;
-using System.Web.UI;
+using System.Web;
 using bluesky.Services.Security;
 
-namespace bluesky
+namespace bluesky.Auth
 {
-    public partial class CerrarSesion : Page
+    public partial class CerrarSesion : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // 1) cerrar sesión
             AuthHelper.SignOut();
-            Response.Redirect("~/IniciarSesion.aspx", endResponse: true);
+
+            // 2) evitar back button de inmediato
+            AuthHelper.ApplyNoCache(Response);
+
+            // 3) redirigir al login con un mensaje
+            var url = "~/Auth/IniciarSesion.aspx?msg=logout";
+            Response.Redirect(VirtualPathUtility.ToAbsolute(url), endResponse: true);
         }
     }
 }

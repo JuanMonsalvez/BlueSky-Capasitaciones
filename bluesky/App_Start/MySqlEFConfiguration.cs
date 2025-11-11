@@ -3,6 +3,13 @@ using MySql.Data.EntityFramework;
 
 namespace bluesky.App_Start
 {
-    [DbConfigurationType(typeof(MySqlEFConfiguration))]
-    public class MySqlEFSetup { }
+    public class MySqlEFConfiguration : DbConfiguration
+    {
+        public MySqlEFConfiguration()
+        {
+            SetMigrationSqlGenerator(
+                "MySql.Data.MySqlClient",
+                () => new MySql.Data.EntityFramework.MySqlMigrationSqlGenerator());
+        }
+    }
 }
