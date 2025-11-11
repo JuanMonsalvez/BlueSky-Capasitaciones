@@ -1,23 +1,37 @@
 ﻿using System;
 using System.Web;
+using System.Web.UI;
 using bluesky.Services.Security;
 
 namespace bluesky.App_Code
 {
-    public class AdminPage : System.Web.UI.Page
+    public class AdminPage : Page
     {
-        protected override void OnLoad(EventArgs e)
+        protected override void OnInit(EventArgs e)
         {
-            // 1) Requiere sesión
-            AuthHelper.EnsureAuthenticatedOrRedirect("~/Auth/IniciarSesion.aspx");
+            base.OnInit(e);
 
-            // 2) Requiere rol Admin
-            AuthHelper.EnsureRoleOrRedirect("Admin", "~/Public/Default.aspx");
+            // Debe estar autenticado
+            if (!AuthHelper.IsAuthenticated())
+            {
+                var login = "~/Auth/IniciarSesion.aspx";
+                var ret = HttpUtility.UrlEncode(Request.RawUrl);
+                Response.Redirect(VirtualPathUtility.ToAbsolute(string.Format("{0}?returnUrl={1}", login, ret)), true);
+                return;
+            }
 
-            // 3) Evita cache de navegador
-            AuthHelper.ApplyNoCache(Response);
+            // Debe ser Admin
+            var role = AuthHelper.GetCurrentUserRole();
+            if (!string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                Response.Redirect(VirtualPathUtility.ToAbsolute("~/Default.aspx"), true);
+                return;
+            }
 
-            base.OnLoad(e);
+            // anti-cache
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+            Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
         }
     }
 }

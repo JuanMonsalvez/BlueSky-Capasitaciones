@@ -1,49 +1,42 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPages/Site.Master"
-    AutoEventWireup="true" CodeBehind="AdminCursos.aspx.cs"
-    Inherits="bluesky.Admin.AdminCursos" %>
+﻿<%@ Page Title="Cursos (Admin)" Language="C#" MasterPageFile="~/MasterPages/Site.Master"
+    AutoEventWireup="true" CodeBehind="AdminCursos.aspx.cs" Inherits="bluesky.Admin.AdminCursos" %>
 
-<asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2 class="page-header">Administrar Cursos</h2>
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="container">
+        <h2 class="page-header">Administración de Cursos</h2>
 
-    <div class="row" style="margin-bottom:12px;">
-        <div class="col-sm-6">
-            <asp:TextBox ID="txtFiltro" runat="server" CssClass="form-control" placeholder="Buscar por título..." />
+        <div class="text-right" style="margin-bottom:12px;">
+            <a class="btn btn-primary" href="<%: ResolveUrl("~/Admin/CursoEditar.aspx") %>">+ Nuevo curso</a>
         </div>
-        <div class="col-sm-3">
-            <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-default" OnClick="btnBuscar_Click" />
-            <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" CssClass="btn btn-link" OnClick="btnLimpiar_Click" />
-        </div>
-        <div class="col-sm-3 text-right">
-            <a class="btn btn-primary" href="<%: ResolveUrl("~/Admin/CursoEditar.aspx") %>">
-                + Nuevo Curso
-            </a>
-        </div>
+
+        <asp:Label ID="lblMsg" runat="server" CssClass="text-danger" />
+
+        <asp:GridView ID="gvCursos" runat="server" CssClass="table table-striped table-bordered"
+            AutoGenerateColumns="false" AllowPaging="true" PageSize="10"
+            OnPageIndexChanging="gvCursos_PageIndexChanging"
+            OnRowCommand="gvCursos_RowCommand" OnRowDataBound="gvCursos_RowDataBound"
+            DataKeyNames="Id">
+
+            <Columns>
+                <asp:BoundField DataField="Id" HeaderText="ID" ItemStyle-Width="60px" />
+                <asp:TemplateField HeaderText="Portada" ItemStyle-Width="120px">
+                    <ItemTemplate>
+                        <asp:Image ID="imgPortada" runat="server" Width="110" Height="70" Style="object-fit:cover;border-radius:6px;" />
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:BoundField DataField="Titulo" HeaderText="Título" />
+                <asp:BoundField DataField="Nivel" HeaderText="Nivel" />
+                <asp:CheckBoxField DataField="Activo" HeaderText="Activo" />
+                <asp:BoundField DataField="FechaCreacion" HeaderText="Creado" DataFormatString="{0:yyyy-MM-dd}" />
+                <asp:TemplateField HeaderText="Acciones" ItemStyle-Width="180px">
+                    <ItemTemplate>
+                        <a class="btn btn-sm btn-default" href='<%# ResolveUrl("~/Admin/CursoEditar.aspx?id=" + Eval("Id")) %>'>Editar</a>
+                        <asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-sm btn-danger"
+                            CommandName="Eliminar" CommandArgument='<%# Eval("Id") %>'
+                            OnClientClick="return confirm('¿Eliminar este curso?');">Eliminar</asp:LinkButton>
+                    </ItemTemplate>
+                </asp:TemplateField>
+            </Columns>
+        </asp:GridView>
     </div>
-
-    <asp:GridView ID="gvCursos" runat="server" CssClass="table table-bordered table-striped"
-        AutoGenerateColumns="False" AllowPaging="true" PageSize="10"
-        OnPageIndexChanging="gvCursos_PageIndexChanging" DataKeyNames="Id">
-        <Columns>
-            <asp:BoundField DataField="Id" HeaderText="ID" ReadOnly="true" ItemStyle-Width="60" />
-            <asp:BoundField DataField="Titulo" HeaderText="Título" />
-            <asp:CheckBoxField DataField="Activo" HeaderText="Activo" ItemStyle-HorizontalAlign="Center" />
-            <asp:TemplateField HeaderText="Acciones" ItemStyle-Width="180" ItemStyle-HorizontalAlign="Center">
-                <ItemTemplate>
-                    <a class="btn btn-xs btn-default" href='<%# ResolveUrl("~/Admin/CursoEditar.aspx?id=" + Eval("Id")) %>'>Editar</a>
-                    <asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-xs btn-danger"
-                        CommandName="Eliminar" CommandArgument='<%# Eval("Id") %>'
-                        OnCommand="btnEliminar_Command"
-                        OnClientClick="return confirm('¿Eliminar este curso? Esta acción no se puede deshacer.');">
-                        Eliminar
-                    </asp:LinkButton>
-                </ItemTemplate>
-            </asp:TemplateField>
-        </Columns>
-        <PagerStyle CssClass="pagination-plain" />
-        <EmptyDataTemplate>
-            <div class="alert alert-info">No hay cursos que coincidan con el filtro.</div>
-        </EmptyDataTemplate>
-    </asp:GridView>
-
-    <asp:Label ID="lblMsg" runat="server" CssClass="text-danger" />
 </asp:Content>

@@ -146,3 +146,4 @@ D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.CoreCompileInputs.cac
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.Up2Date
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.dll
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.pdb
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.Curso_PortadaUrl.resources

@@ -16,6 +16,13 @@ namespace bluesky
             RegisterRoutes(RouteTable.Routes);
             EnsureRolesAndAdmin();
         }
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+            Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+        }
+
 
         // 1) Rutas amigables
         private static void RegisterRoutes(RouteCollection routes)
@@ -37,6 +44,13 @@ namespace bluesky
             // Usuario
             routes.MapPageRoute("UsuarioCursos", "Usuario/Cursos", "~/Usuario/Cursos.aspx");
             routes.MapPageRoute("UsuarioMiProgreso", "Usuario/MiProgreso", "~/Usuario/MiProgreso.aspx");
+
+            // Admin
+            routes.MapPageRoute(routeName: "AdminUsuarios",routeUrl: "Admin/AdminUsuarios",physicalFile: "~/Admin/AdminUsuarios.aspx");
+            routes.MapPageRoute(routeName: "AdminCursoEditar", routeUrl: "Admin/Curso/editar/{id}", physicalFile: "~/Admin/CursoEditar.aspx");
+            routes.MapPageRoute("AdminReportes", "Admin/Reportes", "~/Admin/AdminReportes.aspx");
+            routes.MapPageRoute("AdminDashboard", "Admin/Dashboard", "~/Admin/AdminDashboard.aspx");
+            routes.MapPageRoute("CursosEditar", "Admin/Cursos/Editar/{cursoId}", "~/Admin/CursoEditar.aspx");
         }
 
         // 2) jQuery mapping para WebForms unobtrusive validation

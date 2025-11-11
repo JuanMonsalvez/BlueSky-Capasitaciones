@@ -1,20 +1,19 @@
-﻿using bluesky.Models;
-using bluesky.Services.Security;
-using System;
+﻿using System;
 using System.Linq;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Web;
+using bluesky.Models;
+using bluesky.Services.Security;
 
 namespace bluesky.Auth
 {
-    public partial class CrearSesion : Page
+    public partial class CrearSesion : System.Web.UI.Page
     {
-        // Política server-side por si deshabilitan JS
-        private const string PasswordPolicyRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$";
-
         protected void Page_Load(object sender, EventArgs e)
         {
-            // nada especial por ahora
+            // No-cache para evitar “volver atrás” con datos posteados
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+            Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
         }
 
         protected void btnCrear_Click(object sender, EventArgs e)
@@ -23,44 +22,23 @@ namespace bluesky.Auth
 
             var nombre = txtNombre.Text.Trim();
             var correo = txtCorreo.Text.Trim().ToLowerInvariant();
-            var pass = txtPassword.Text;
-
-            // Validación de contraseña del lado servidor
-            if (!System.Text.RegularExpressions.Regex.IsMatch(pass, PasswordPolicyRegex))
-            {
-                valSummary.HeaderText = "Corrige los errores:";
-                valSummary.ShowSummary = true;
-                Page.Validators.Add(new CustomValidator
-                {
-                    IsValid = false,
-                    ErrorMessage = "La contraseña debe tener mínimo 8 caracteres, con mayúscula, minúscula y número."
-                });
-                return;
-            }
+            var pass = txtPass.Text;
 
             try
             {
                 using (var db = new ApplicationDbContext())
                 {
-                    // ¿Correo ya existe?
-                    var existe = db.Usuarios.Any(u => u.Correo == correo);
-                    if (existe)
+                    // correo único
+                    if (db.Usuarios.Any(u => u.Correo == correo))
                     {
-                        valSummary.HeaderText = "Corrige los errores:";
-                        valSummary.ShowSummary = true;
-                        Page.Validators.Add(new CustomValidator
-                        {
-                            IsValid = false,
-                            ErrorMessage = "El correo ya está registrado."
-                        });
+                        lblMensaje.Text = "Ese correo ya está registrado.";
                         return;
                     }
 
-                    // Rol por defecto: "Usuario"
+                    // rol por defecto = "Usuario" (si no existe, lo crea)
                     var rolUsuario = db.Roles.FirstOrDefault(r => r.Nombre == "Usuario");
                     if (rolUsuario == null)
                     {
-                        // fallback: lo creamos si no existe (no debería pasar por el seed)
                         rolUsuario = new Rol { Nombre = "Usuario" };
                         db.Roles.Add(rolUsuario);
                         db.SaveChanges();
@@ -82,18 +60,15 @@ namespace bluesky.Auth
                     db.SaveChanges();
                 }
 
-                // Redirección a iniciar sesión con mensajito
-                Response.Redirect(ResolveUrl("~/Auth/IniciarSesion?created=1"), endResponse: true);
+                // Redirige a iniciar sesión con mensaje
+                var loginUrl = ResolveUrl("~/Auth/IniciarSesion.aspx?msg=cuenta_creada");
+                Response.Redirect(loginUrl, endResponse: true);
             }
             catch (Exception ex)
             {
-                valSummary.HeaderText = "Ocurrió un error:";
-                valSummary.ShowSummary = true;
-                Page.Validators.Add(new CustomValidator
-                {
-                    IsValid = false,
-                    ErrorMessage = "No se pudo crear la cuenta. Intenta nuevamente. Detalle: " + ex.Message
-                });
+                // log (si tienes logging)
+                lblMensaje.Text = "No se pudo crear la cuenta. Intenta nuevamente.";
+                System.Diagnostics.Debug.WriteLine("CrearSesion error: " + ex);
             }
         }
     }

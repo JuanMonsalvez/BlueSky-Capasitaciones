@@ -1,14 +1,15 @@
-﻿using System;
+﻿using bluesky.Models;
+using System;
+using System.IO;
 using System.Linq;
-using bluesky.Services;            // si tienes CursosService
-using bluesky.Models;
-using bluesky.App_Code;
+using System.Web.UI.WebControls;
 
 namespace bluesky.Admin
 {
-    // Solo Admin
-    public partial class AdminCursos : AdminPage
+    public partial class AdminCursos : App_Code.AdminPage
     {
+        private const string PLACEHOLDER = "~/img/curso-placeholder.jpg";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -17,66 +18,81 @@ namespace bluesky.Admin
 
         private void BindGrid()
         {
-            var filtro = (txtFiltro.Text ?? "").Trim();
-
             using (var db = new ApplicationDbContext())
             {
-                // Campos mínimos para evitar discrepancias con tu modelo.
-                // Ajusta si usas otros nombres (e.g., Nombre en vez de Titulo).
-                var query = db.Cursos.Select(c => new
-                {
-                    c.Id,
-                    c.Titulo,   // ⚠ si tu propiedad es Nombre, cámbialo a c.Nombre
-                    c.Activo
-                });
-
-                if (!string.IsNullOrEmpty(filtro))
-                    query = query.Where(c => c.Titulo.Contains(filtro));
-
-                gvCursos.DataSource = query
-                    .OrderByDescending(c => c.Id)
+                var data = db.Cursos
+                    .OrderByDescending(c => c.FechaCreacion)
+                    .Select(c => new
+                    {
+                        c.Id,
+                        c.Titulo,
+                        Nivel = c.Nivel.ToString(),
+                        c.Activo,
+                        c.FechaCreacion,
+                        c.PortadaUrl
+                    })
                     .ToList();
+
+                gvCursos.DataSource = data;
                 gvCursos.DataBind();
             }
         }
 
-        protected void btnBuscar_Click(object sender, EventArgs e) => BindGrid();
-
-        protected void btnLimpiar_Click(object sender, EventArgs e)
-        {
-            txtFiltro.Text = "";
-            BindGrid();
-        }
-
-        protected void gvCursos_PageIndexChanging(object sender, System.Web.UI.WebControls.GridViewPageEventArgs e)
+        protected void gvCursos_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvCursos.PageIndex = e.NewPageIndex;
             BindGrid();
         }
 
-        protected void btnEliminar_Command(object sender, System.Web.UI.WebControls.CommandEventArgs e)
+        protected void gvCursos_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            try
-            {
-                var id = int.Parse(e.CommandArgument.ToString());
-                using (var db = new ApplicationDbContext())
-                {
-                    var curso = db.Cursos.FirstOrDefault(x => x.Id == id);
-                    if (curso == null)
-                    {
-                        lblMsg.Text = "El curso no existe o ya fue eliminado.";
-                        return;
-                    }
+            if (e.Row.RowType != DataControlRowType.DataRow) return;
+            var img = e.Row.FindControl("imgPortada") as Image;
+            if (img == null) return;
 
-                    db.Cursos.Remove(curso);
-                    db.SaveChanges();
-                }
-                BindGrid();
-            }
-            catch (Exception ex)
+            var dataItem = (dynamic)e.Row.DataItem;
+            var url = (string)dataItem.PortadaUrl;
+
+            if (string.IsNullOrWhiteSpace(url))
             {
-                lblMsg.Text = "Error al eliminar el curso.";
-                System.Diagnostics.Debug.WriteLine(ex);
+                img.ImageUrl = ResolveUrl(PLACEHOLDER);
+            }
+            else
+            {
+                // Usa portada si existe físicamente, de lo contrario placeholder
+                var fs = Server.MapPath(url);
+                img.ImageUrl = File.Exists(fs) ? ResolveUrl(url) : ResolveUrl(PLACEHOLDER);
+            }
+        }
+
+        protected void gvCursos_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Eliminar")
+            {
+                int id;
+                if (int.TryParse(e.CommandArgument.ToString(), out id))
+                {
+                    using (var db = new ApplicationDbContext())
+                    {
+                        var c = db.Cursos.Find(id);
+                        if (c == null) { lblMsg.Text = "Curso no encontrado."; return; }
+
+                        // Limpia carpeta de portada
+                        if (!string.IsNullOrWhiteSpace(c.PortadaUrl))
+                        {
+                            try
+                            {
+                                var dir = System.IO.Path.GetDirectoryName(Server.MapPath(c.PortadaUrl));
+                                if (Directory.Exists(dir)) Directory.Delete(dir, true);
+                            }
+                            catch { /* noop */ }
+                        }
+
+                        db.Cursos.Remove(c);
+                        db.SaveChanges();
+                    }
+                    BindGrid();
+                }
             }
         }
     }

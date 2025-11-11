@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace bluesky.Models
 {
-    public enum NivelCurso { Basico = 1, Intermedio = 2, Avanzado = 3 }
+    // Alineado con el grid: 0=Básico, 1=Intermedio, 2=Avanzado
+    public enum NivelCurso { Basico = 0, Intermedio = 1, Avanzado = 2 }
 
     [Table("cursos")]
     public class Curso
@@ -25,6 +26,10 @@ namespace bluesky.Models
 
         public int DuracionHoras { get; set; } = 0;
         public NivelCurso Nivel { get; set; } = NivelCurso.Basico;
+
+        // ✅ NUEVO: se guarda la RUTA relativa de la imagen (p. ej. ~/Uploads/cursos/12/portada.jpg)
+        [StringLength(300)]
+        public string PortadaUrl { get; set; }
 
         public bool Activo { get; set; } = true;
         public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;

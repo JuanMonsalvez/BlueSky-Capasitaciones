@@ -1,34 +1,28 @@
-﻿<%@ Page Title="Mis cursos" Language="C#" MasterPageFile="~/MasterPages/Site.Master"
-    AutoEventWireup="true" CodeBehind="Cursos.aspx.cs" Inherits="bluesky.Usuario.Cursos" %>
+﻿<%@ Page Title="Cursos" Language="C#" MasterPageFile="~/MasterPages/Site.Master"
+    AutoEventWireup="true" CodeBehind="Cursos.aspx.cs" Inherits="bluesky.Publico.Cursos" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h2 class="mb-3">Mis cursos</h2>
+    <div class="container">
+        <h2 class="page-header">Cursos disponibles</h2>
 
-    <asp:Panel ID="pnlEmpty" runat="server" Visible="false" CssClass="alert alert-info">
-        Aún no estás inscrito en ningún curso.
-    </asp:Panel>
-
-    <asp:Repeater ID="rptCursos" runat="server">
-        <HeaderTemplate>
-            <div class="row">
-        </HeaderTemplate>
-        <ItemTemplate>
-            <div class="col-md-6 col-lg-4 mb-3">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title"><%# Eval("Titulo") %></h5>
-                        <p class="card-text"><%# Eval("DescripcionCorta") %></p>
-                        <p class="small text-muted mb-2">
-                            Nivel: <%# Eval("Nivel") %> · Duración: <%# Eval("DuracionHoras") %> hrs
-                        </p>
-                        <!-- Link a detalles si lo tienes creado -->
-                        <%-- <a class="btn btn-primary btn-sm" href='<%# Eval("LinkDetalle") %>'>Ver</a> --%>
+        <asp:Repeater ID="rpCursos" runat="server">
+            <ItemTemplate>
+                <div class="row" style="margin-bottom:18px;">
+                    <div class="col-sm-3">
+                        <img src="<%# Eval("Imagen") %>" class="img-responsive" style="width:100%;height:160px;object-fit:cover;border-radius:8px;" />
+                    </div>
+                    <div class="col-sm-9">
+                        <h4 style="margin-top:0;"><%# Eval("Titulo") %></h4>
+                        <p><%# Eval("Resumen") %></p>
+                        <span class="label label-default"><%# Eval("Nivel") %></span>
                     </div>
                 </div>
-            </div>
-        </ItemTemplate>
-        <FooterTemplate>
-            </div>
-        </FooterTemplate>
-    </asp:Repeater>
+                <hr />
+            </ItemTemplate>
+        </asp:Repeater>
+
+        <asp:Label ID="lblVacio" runat="server" CssClass="text-muted" Visible="false">
+            No hay cursos disponibles.
+        </asp:Label>
+    </div>
 </asp:Content>

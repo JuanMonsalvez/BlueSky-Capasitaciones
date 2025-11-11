@@ -36,7 +36,8 @@ namespace bluesky.Services.Security
             var parts = stored.Split(':');
             if (parts.Length != 3) return false;
 
-            if (!int.TryParse(parts[0], out var iters)) return false;
+            int iters;
+            if (!int.TryParse(parts[0], out iters)) return false;
             var salt = Convert.FromBase64String(parts[1]);
             var hash = Convert.FromBase64String(parts[2]);
 

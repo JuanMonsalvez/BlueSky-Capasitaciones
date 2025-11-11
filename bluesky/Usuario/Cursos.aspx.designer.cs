@@ -7,7 +7,7 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace bluesky.Usuario
+namespace bluesky.Publico
 {
 
 
@@ -15,21 +15,21 @@ namespace bluesky.Usuario
     {
 
         /// <summary>
-        /// Control pnlEmpty.
+        /// Control rpCursos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlEmpty;
+        protected global::System.Web.UI.WebControls.Repeater rpCursos;
 
         /// <summary>
-        /// Control rptCursos.
+        /// Control lblVacio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptCursos;
+        protected global::System.Web.UI.WebControls.Label lblVacio;
     }
 }
