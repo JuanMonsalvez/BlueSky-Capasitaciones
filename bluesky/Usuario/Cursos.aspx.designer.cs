@@ -15,15 +15,6 @@ namespace bluesky.Publico
     {
 
         /// <summary>
-        /// Control rpCursos.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rpCursos;
-
-        /// <summary>
         /// Control lblVacio.
         /// </summary>
         /// <remarks>
@@ -31,5 +22,14 @@ namespace bluesky.Publico
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblVacio;
+
+        /// <summary>
+        /// Control rpCursos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rpCursos;
     }
 }

@@ -55,6 +55,7 @@ D:\BlueSky-Capasitaciones\bluesky\bin\BouncyCastle.Crypto.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\BouncyCastle.Cryptography.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\EntityFramework.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\EntityFramework.SqlServer.dll
+D:\BlueSky-Capasitaciones\bluesky\bin\EPPlus.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\Google.Protobuf.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\K4os.Compression.LZ4.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\K4os.Compression.LZ4.Streams.dll
@@ -100,6 +101,7 @@ D:\BlueSky-Capasitaciones\bluesky\bin\BouncyCastle.Crypto.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\BouncyCastle.Cryptography.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\EntityFramework.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\EntityFramework.SqlServer.xml
+D:\BlueSky-Capasitaciones\bluesky\bin\EPPlus.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\Google.Protobuf.pdb
 D:\BlueSky-Capasitaciones\bluesky\bin\Google.Protobuf.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\K4os.Compression.LZ4.xml
@@ -141,9 +143,10 @@ D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.AssemblyReference.cac
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.InitAuth.resources
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.Inicial.resources
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.AgregarCampoTelefonoAUsuarios.resources
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.Curso_PortadaUrl.resources
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.AddAlternativasNavigationToPregunta.resources
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.GenerateResource.cache
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.CoreCompileInputs.cache
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.Up2Date
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.dll
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.pdb
-D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.Curso_PortadaUrl.resources

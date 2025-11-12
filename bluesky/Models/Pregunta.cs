@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace bluesky.Models
@@ -26,5 +27,6 @@ namespace bluesky.Models
 
         public int Orden { get; set; } = 1;
         public bool Activa { get; set; } = true;
+        public virtual ICollection<Alternativa> Alternativas { get; set; }
     }
 }

@@ -62,6 +62,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.3, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="Google.Protobuf, Version=3.32.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>packages\Google.Protobuf.3.32.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
@@ -138,6 +141,7 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.5.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
@@ -212,6 +216,10 @@
     <Content Include="About.aspx" />
     <Content Include="Admin\AdminCursos.aspx" />
     <Content Include="Admin\AdminDashboard.aspx" />
+    <Content Include="Admin\AdminEvaluacionEditar.aspx" />
+    <Content Include="Admin\AdminEvaluaciones.aspx" />
+    <Content Include="Admin\AdminEvaluacionPreguntas.aspx" />
+    <Content Include="Admin\AdminPreguntaEditar.aspx" />
     <Content Include="Admin\AdminReportes.aspx" />
     <Content Include="Admin\AdminUsuarios.aspx" />
     <Content Include="Admin\CursoEditar.aspx" />
@@ -285,6 +293,8 @@
     <Content Include="Usuario\Cursos.aspx" />
     <Content Include="Usuario\Evaluacion.aspx" />
     <Content Include="Usuario\MiProgreso.aspx" />
+    <Content Include="Usuario\RendirEvaluacion.aspx" />
+    <Content Include="Usuario\RendirEvaluacionPreguntas.aspx" />
     <Content Include="Usuario\ResultadoEvaluacion.aspx" />
     <Content Include="Usuario\SeleccionarEvaluacion.aspx" />
     <Content Include="Web.config" />
@@ -305,6 +315,34 @@
     </Compile>
     <Compile Include="Admin\AdminDashboard.aspx.designer.cs">
       <DependentUpon>AdminDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AdminEvaluacionEditar.aspx.cs">
+      <DependentUpon>AdminEvaluacionEditar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AdminEvaluacionEditar.aspx.designer.cs">
+      <DependentUpon>AdminEvaluacionEditar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AdminEvaluaciones.aspx.cs">
+      <DependentUpon>AdminEvaluaciones.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AdminEvaluaciones.aspx.designer.cs">
+      <DependentUpon>AdminEvaluaciones.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AdminEvaluacionPreguntas.aspx.cs">
+      <DependentUpon>AdminEvaluacionPreguntas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AdminEvaluacionPreguntas.aspx.designer.cs">
+      <DependentUpon>AdminEvaluacionPreguntas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AdminPreguntaEditar.aspx.cs">
+      <DependentUpon>AdminPreguntaEditar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AdminPreguntaEditar.aspx.designer.cs">
+      <DependentUpon>AdminPreguntaEditar.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\AdminReportes.aspx.cs">
       <DependentUpon>AdminReportes.aspx</DependentUpon>
@@ -408,6 +446,10 @@
     <Compile Include="Migrations\202511110547546_Curso_PortadaUrl.Designer.cs">
       <DependentUpon>202511110547546_Curso_PortadaUrl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202511112239556_AddAlternativasNavigationToPregunta.cs" />
+    <Compile Include="Migrations\202511112239556_AddAlternativasNavigationToPregunta.Designer.cs">
+      <DependentUpon>202511112239556_AddAlternativasNavigationToPregunta.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Alternativa.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -494,6 +536,20 @@
     <Compile Include="Usuario\MiProgreso.aspx.designer.cs">
       <DependentUpon>MiProgreso.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Usuario\RendirEvaluacion.aspx.cs">
+      <DependentUpon>RendirEvaluacion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Usuario\RendirEvaluacion.aspx.designer.cs">
+      <DependentUpon>RendirEvaluacion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario\RendirEvaluacionPreguntas.aspx.cs">
+      <DependentUpon>RendirEvaluacionPreguntas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Usuario\RendirEvaluacionPreguntas.aspx.designer.cs">
+      <DependentUpon>RendirEvaluacionPreguntas.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Usuario\ResultadoEvaluacion.aspx.cs">
       <DependentUpon>ResultadoEvaluacion.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -560,6 +616,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202511110547546_Curso_PortadaUrl.resx">
       <DependentUpon>202511110547546_Curso_PortadaUrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202511112239556_AddAlternativasNavigationToPregunta.resx">
+      <DependentUpon>202511112239556_AddAlternativasNavigationToPregunta.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -36,7 +36,7 @@
 
             <div style="margin-top:8px;">
                 ¿No tienes cuenta?
-                <a href="~/Auth/CrearSesion.aspx">Crear una ahora</a>
+                <a href="<%: ResolveUrl("~/Auth/CrearSesion.aspx") %>">Crear una ahora</a>
             </div>
 
         </div>

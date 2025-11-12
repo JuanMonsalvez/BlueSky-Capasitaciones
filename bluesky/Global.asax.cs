@@ -44,13 +44,51 @@ namespace bluesky
             // Usuario
             routes.MapPageRoute("UsuarioCursos", "Usuario/Cursos", "~/Usuario/Cursos.aspx");
             routes.MapPageRoute("UsuarioMiProgreso", "Usuario/MiProgreso", "~/Usuario/MiProgreso.aspx");
+            // Rendir evaluación
+            routes.MapPageRoute(
+                routeName: "UsuarioRendirEvaluacion",
+                routeUrl: "Usuario/RendirEvaluacion",
+                physicalFile: "~/Usuario/RendirEvaluacion.aspx"
+            );
+
 
             // Admin
             routes.MapPageRoute(routeName: "AdminUsuarios",routeUrl: "Admin/AdminUsuarios",physicalFile: "~/Admin/AdminUsuarios.aspx");
             routes.MapPageRoute(routeName: "AdminCursoEditar", routeUrl: "Admin/Curso/editar/{id}", physicalFile: "~/Admin/CursoEditar.aspx");
-            routes.MapPageRoute("AdminReportes", "Admin/Reportes", "~/Admin/AdminReportes.aspx");
+            routes.MapPageRoute(routeName: "AdminReportes", routeUrl: "Admin/Reportes", physicalFile: "~/Admin/AdminReportes.aspx");
             routes.MapPageRoute("AdminDashboard", "Admin/Dashboard", "~/Admin/AdminDashboard.aspx");
             routes.MapPageRoute("CursosEditar", "Admin/Cursos/Editar/{cursoId}", "~/Admin/CursoEditar.aspx");
+
+            // Evaluaciones (Admin)
+            routes.MapPageRoute(
+                routeName: "AdminEvaluaciones",
+                routeUrl: "Admin/AdminEvaluaciones",
+                physicalFile: "~/Admin/AdminEvaluaciones.aspx"
+            );
+
+            // Evaluación -> Preguntas (listado)
+            routes.MapPageRoute(
+                routeName: "AdminEvaluacionPreguntas",
+                routeUrl: "Admin/Evaluaciones/{evalId}/Preguntas",
+                physicalFile: "~/Admin/AdminEvaluacionPreguntas.aspx"
+            );
+
+            // Pregunta -> nueva
+            routes.MapPageRoute(
+                routeName: "AdminPreguntaNueva",
+                routeUrl: "Admin/Evaluaciones/{evalId}/Preguntas/Nueva",
+                physicalFile: "~/Admin/AdminPreguntaEditar.aspx"
+            );
+
+            // Pregunta -> editar
+            routes.MapPageRoute(
+                routeName: "AdminPreguntaEditar",
+                routeUrl: "Admin/Evaluaciones/{evalId}/Pregunta/{id}",
+                physicalFile: "~/Admin/AdminPreguntaEditar.aspx"
+            );
+
+
+
         }
 
         // 2) jQuery mapping para WebForms unobtrusive validation

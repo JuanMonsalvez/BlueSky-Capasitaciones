@@ -25,12 +25,14 @@ namespace bluesky.Publico
                     .ToList()
                     .Select(c => new
                     {
+                        c.Id,
                         c.Titulo,
                         Resumen = (c.Descripcion ?? "").Length > 220
                                   ? (c.Descripcion.Substring(0, 220) + "…")
                                   : (c.Descripcion ?? ""),
                         Nivel = c.Nivel.ToString(),
-                        Imagen = UrlOrPlaceholder(c.PortadaUrl)
+                        Imagen = UrlOrPlaceholder(c.PortadaUrl),
+                        LinkDetalle = ResolveUrl($"~/Usuario/CursoDetalle.aspx?id={c.Id}")
                     })
                     .ToList();
 
@@ -40,6 +42,7 @@ namespace bluesky.Publico
                 lblVacio.Visible = data.Count == 0;
             }
         }
+
 
         private string UrlOrPlaceholder(string portada)
         {

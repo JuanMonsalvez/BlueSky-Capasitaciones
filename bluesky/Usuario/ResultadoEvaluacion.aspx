@@ -1,12 +1,17 @@
-﻿<%@ Page Title="Resultado de Evaluación" Language="C#" MasterPageFile="~/MasterPages/Site.Master"
+﻿<%@ Page Title="Resultado de la evaluación" Language="C#" MasterPageFile="~/MasterPages/Site.Master"
     AutoEventWireup="true" CodeBehind="ResultadoEvaluacion.aspx.cs" Inherits="bluesky.Usuario.ResultadoEvaluacion" %>
 
-<asp:Content ID="MainResEval" ContentPlaceHolderID="MainContent" runat="server">
-<section class="container py-4 text-center">
-    <div class="card p-4 mx-auto" style="max-width:600px;">
-        <h2 class="text-success fw-bold">¡Evaluación completada!</h2>
-        <p class="fs-5">Puntaje: <strong>90 %</strong></p>
-        <a href="<%: ResolveUrl("~/Usuario/Cursos.aspx") %>" class="btn btn-primary mt-2">Volver a mis cursos</a>
-    </div>
-</section>
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <asp:Panel ID="pnlBody" runat="server" Visible="false">
+        <h2>Resultado</h2>
+        <p><b>Evaluación:</b> <asp:Literal ID="litEval" runat="server" /></p>
+        <p><b>Puntaje:</b> <asp:Literal ID="litPuntaje" runat="server" />%</p>
+        <p><b>Estado:</b> <asp:Literal ID="litEstado" runat="server" /></p>
+
+        <div style="margin-top:12px;">
+            <asp:HyperLink ID="lnkVolverCurso" runat="server" CssClass="btn btn-default">Volver al curso</asp:HyperLink>
+        </div>
+    </asp:Panel>
+
+    <asp:Label ID="lblMsg" runat="server" CssClass="text-danger" Visible="false" />
 </asp:Content>

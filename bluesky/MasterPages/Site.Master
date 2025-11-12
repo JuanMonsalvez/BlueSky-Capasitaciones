@@ -50,7 +50,8 @@
                                         <li><a href="<%: ResolveUrl("~/Admin/AdminDashboard.aspx") %>">Panel principal</a></li>
                                         <li><a href="<%: ResolveUrl("~/Admin/AdminUsuarios.aspx") %>">Usuarios</a></li>
                                         <li><a href="<%: ResolveUrl("~/Admin/AdminCursos.aspx") %>">Cursos</a></li>
-                                        <li><a href="<%: ResolveUrl("~/Admin/AdminReportes.aspx") %>">Reportes</a></li>
+                                        <li><a href="<%: ResolveUrl("~/Admin/Reportes") %>">Reportes</a></li>
+                                        <li><a href="<%: ResolveUrl("~/Admin/AdminEvaluaciones") %>">Evaluaciones</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="<%: ResolveUrl("~/Admin/CursoEditar.aspx") %>">Editar Curso</a></li>
                                     </ul>
