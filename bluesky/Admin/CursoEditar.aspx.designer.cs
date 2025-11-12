@@ -24,13 +24,13 @@ namespace bluesky.Admin
         protected global::System.Web.UI.WebControls.Literal litTitulo;
 
         /// <summary>
-        /// Control valSummary.
+        /// Control lblMsg.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ValidationSummary valSummary;
+        protected global::System.Web.UI.WebControls.Label lblMsg;
 
         /// <summary>
         /// Control txtTitulo.
@@ -40,15 +40,6 @@ namespace bluesky.Admin
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtTitulo;
-
-        /// <summary>
-        /// Control reqTitulo.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqTitulo;
 
         /// <summary>
         /// Control txtDescripcion.
@@ -87,15 +78,6 @@ namespace bluesky.Admin
         protected global::System.Web.UI.WebControls.TextBox txtDuracion;
 
         /// <summary>
-        /// Control valDuracion.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator valDuracion;
-
-        /// <summary>
         /// Control ddlNivel.
         /// </summary>
         /// <remarks>
@@ -114,13 +96,13 @@ namespace bluesky.Admin
         protected global::System.Web.UI.WebControls.CheckBox chkActivo;
 
         /// <summary>
-        /// Control fuPortada.
+        /// Control btnGuardar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fuPortada;
+        protected global::System.Web.UI.WebControls.Button btnGuardar;
 
         /// <summary>
         /// Control imgPreview.
@@ -132,30 +114,57 @@ namespace bluesky.Admin
         protected global::System.Web.UI.WebControls.Image imgPreview;
 
         /// <summary>
-        /// Control btnGuardar.
+        /// Control fuPortada.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGuardar;
+        protected global::System.Web.UI.WebControls.FileUpload fuPortada;
 
         /// <summary>
-        /// Control lnkVolver.
+        /// Control fuMaterial.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkVolver;
+        protected global::System.Web.UI.WebControls.FileUpload fuMaterial;
 
         /// <summary>
-        /// Control lblMsg.
+        /// Control ddlTipoMaterial.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMsg;
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipoMaterial;
+
+        /// <summary>
+        /// Control btnSubirMaterial.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSubirMaterial;
+
+        /// <summary>
+        /// Control lblMatMsg.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMatMsg;
+
+        /// <summary>
+        /// Control gvMateriales.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvMateriales;
     }
 }

@@ -58,6 +58,8 @@ namespace bluesky
             routes.MapPageRoute(routeName: "AdminReportes", routeUrl: "Admin/Reportes", physicalFile: "~/Admin/AdminReportes.aspx");
             routes.MapPageRoute("AdminDashboard", "Admin/Dashboard", "~/Admin/AdminDashboard.aspx");
             routes.MapPageRoute("CursosEditar", "Admin/Cursos/Editar/{cursoId}", "~/Admin/CursoEditar.aspx");
+            routes.MapPageRoute(routeName: "AdminGenerarPreguntasIA", routeUrl: "Admin/GenerarPreguntasIA", physicalFile: "~/Admin/GenerarPreguntasIA.aspx");
+
 
             // Evaluaciones (Admin)
             routes.MapPageRoute(

@@ -15,22 +15,13 @@ namespace bluesky.Usuario
     {
 
         /// <summary>
-        /// Control pnlBody.
+        /// Control lblMsg.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlBody;
-
-        /// <summary>
-        /// Control imgPortada.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgPortada;
+        protected global::System.Web.UI.WebControls.Label lblMsg;
 
         /// <summary>
         /// Control litTitulo.
@@ -42,33 +33,6 @@ namespace bluesky.Usuario
         protected global::System.Web.UI.WebControls.Literal litTitulo;
 
         /// <summary>
-        /// Control litArea.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litArea;
-
-        /// <summary>
-        /// Control litNivel.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litNivel;
-
-        /// <summary>
-        /// Control litDuracion.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litDuracion;
-
-        /// <summary>
         /// Control litDescripcion.
         /// </summary>
         /// <remarks>
@@ -78,30 +42,21 @@ namespace bluesky.Usuario
         protected global::System.Web.UI.WebControls.Literal litDescripcion;
 
         /// <summary>
-        /// Control lnkEvaluacion.
+        /// Control repMateriales.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkEvaluacion;
+        protected global::System.Web.UI.WebControls.Repeater repMateriales;
 
         /// <summary>
-        /// Control lblSinEval.
+        /// Control repEvaluaciones.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSinEval;
-
-        /// <summary>
-        /// Control lblMsg.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMsg;
+        protected global::System.Web.UI.WebControls.Repeater repEvaluaciones;
     }
 }
