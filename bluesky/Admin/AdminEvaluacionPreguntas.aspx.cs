@@ -1,111 +1,122 @@
-﻿using bluesky.App_Code; // AdminPage
-using bluesky.Models;
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.UI.WebControls;
+using bluesky.App_Code;
+using bluesky.Models;
 
 namespace bluesky.Admin
 {
     public partial class AdminEvaluacionPreguntas : AdminPage
     {
-        private int EvalId
+        private int? EvalId
         {
             get
             {
-                // evalId desde ruta o querystring
-                var qs = Request.QueryString["evalId"];
                 int id;
-                if (!int.TryParse(qs, out id))
-                {
-                    // intenta FriendlyUrl: /Admin/Evaluaciones/{evalId}/Preguntas
-                    var raw = Page.RouteData.Values["evalId"] as string;
-                    if (!int.TryParse(raw, out id)) id = 0;
-                }
-                return id;
+                return int.TryParse(Request.QueryString["evaluacionId"], out id) ? id : (int?)null;
             }
         }
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-                Cargar();
+            {
+                if (!EvalId.HasValue)
+                {
+                    lblMsg.Text = "Evaluación no especificada.";
+                    btnNuevaPregunta.Enabled = false;
+                    return;
+                }
+
+                CargarCabeceraYLista();
+            }
         }
 
-        private void Cargar()
+        private void CargarCabeceraYLista()
         {
-            if (EvalId <= 0) { lblMsg.Text = "Evaluación inválida."; return; }
+            if (!EvalId.HasValue) return;
 
             using (var db = new ApplicationDbContext())
             {
-                var eval = db.Evaluaciones.Where(e => e.Id == EvalId)
-                    .Select(e => new { e.Id, e.Titulo, CursoTitulo = e.Curso.Titulo })
-                    .FirstOrDefault();
+                var eva = db.Evaluaciones.Find(EvalId.Value);
+                if (eva == null)
+                {
+                    lblMsg.Text = "Evaluación no encontrada.";
+                    btnNuevaPregunta.Enabled = false;
+                    return;
+                }
 
-                if (eval == null) { lblMsg.Text = "Evaluación no encontrada."; return; }
+                var curso = db.Cursos.Find(eva.CursoId);
 
-                litEvalTitulo.Text = eval.Titulo;
+                hfEvalId.Value = eva.Id.ToString();
+                lblCurso.Text = curso != null ? curso.Titulo : "(curso sin título)";
+                lblEvaluacion.Text = eva.Titulo;
 
-                // enlaces
-                lnkVolver.HRef = ResolveUrl("~/Admin/AdminEvaluaciones.aspx");
-                lnkNueva.HRef = GetNuevaPreguntaUrl(EvalId);
-
-                // preguntas + alternativas
-                var data = db.Preguntas
-                    .Where(p => p.EvaluacionId == EvalId)
+                var preguntas = db.Preguntas
+                    .Where(p => p.EvaluacionId == eva.Id && p.Activa)
                     .OrderBy(p => p.Orden)
+                    .ThenBy(p => p.Id)
                     .Select(p => new
                     {
                         p.Id,
-                        p.Enunciado,
-                        p.Categoria,
-                        p.Dificultad,
-                        p.MultipleRespuesta,
                         p.Orden,
-                        Alternativas = p.Alternativas
-                            .OrderBy(a => a.Orden)
-                            .Select(a => new { a.Texto, a.EsCorrecta })
-                            .ToList()
+                        EnunciadoResumen = p.Enunciado.Length > 120
+                            ? p.Enunciado.Substring(0, 120) + "..."
+                            : p.Enunciado,
+                        p.Categoria,
+                        DificultadTexto =
+                            p.Dificultad == DificultadPregunta.Facil ? "Básica" :
+                            p.Dificultad == DificultadPregunta.Media ? "Media" : "Avanzada",
+                        AlternativasCount = db.Alternativas
+                            .Count(a => a.PreguntaId == p.Id && a.Activa)
                     })
                     .ToList();
 
-                pnlVacio.Visible = data.Count == 0;
-                repPreguntas.DataSource = data;
-                repPreguntas.DataBind();
+                gvPreguntas.DataSource = preguntas;
+                gvPreguntas.DataBind();
             }
         }
 
-        protected void repPreguntas_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected void btnNuevaPregunta_Click(object sender, EventArgs e)
         {
-            int id;
-            if (!int.TryParse((string)e.CommandArgument, out id))
-                return;
+            if (!EvalId.HasValue) return;
+            Response.Redirect("~/Admin/AdminPreguntaEditar.aspx?evaluacionId=" + EvalId.Value);
+        }
 
-            if (e.CommandName == "edit")
+        protected void btnVolver_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Admin/AdminEvaluaciones.aspx");
+        }
+
+        protected void gvPreguntas_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "EditarPregunta")
             {
-                Response.Redirect(GetEditarPreguntaUrl(EvalId, id), true);
+                int id = Convert.ToInt32(e.CommandArgument);
+                Response.Redirect("~/Admin/AdminPreguntaEditar.aspx?evaluacionId=" + EvalId + "&preguntaId=" + id);
             }
-            else if (e.CommandName == "del")
+            else if (e.CommandName == "EliminarPregunta")
             {
+                int id = Convert.ToInt32(e.CommandArgument);
                 using (var db = new ApplicationDbContext())
                 {
-                    var p = db.Preguntas.FirstOrDefault(x => x.Id == id && x.EvaluacionId == EvalId);
-                    if (p != null)
+                    var pregunta = db.Preguntas.FirstOrDefault(p => p.Id == id);
+                    if (pregunta != null)
                     {
-                        // elimina alternativas primero (FK ON CASCADE podría hacerlo igual)
-                        var alts = db.Alternativas.Where(a => a.PreguntaId == p.Id).ToList();
-                        db.Alternativas.RemoveRange(alts);
-                        db.Preguntas.Remove(p);
+                        pregunta.Activa = false;
+
+                        var alts = db.Alternativas
+                            .Where(a => a.PreguntaId == pregunta.Id)
+                            .ToList();
+
+                        foreach (var a in alts)
+                            a.Activa = false;
+
                         db.SaveChanges();
                     }
                 }
-                Cargar();
+                CargarCabeceraYLista();
             }
         }
-
-        private string GetNuevaPreguntaUrl(int evalId) =>
-            ResolveUrl($"~/Admin/AdminPreguntaEditar.aspx?evalId={evalId}");
-
-        private string GetEditarPreguntaUrl(int evalId, int id) =>
-            ResolveUrl($"~/Admin/AdminPreguntaEditar.aspx?evalId={evalId}&id={id}");
     }
 }

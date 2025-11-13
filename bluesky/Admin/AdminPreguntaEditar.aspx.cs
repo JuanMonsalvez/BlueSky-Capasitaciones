@@ -1,42 +1,27 @@
-﻿using bluesky.App_Code; // AdminPage
-using bluesky.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using bluesky.App_Code;
+using bluesky.Models;
 
 namespace bluesky.Admin
 {
     public partial class AdminPreguntaEditar : AdminPage
     {
-        private int EvalId
-        {
-            get
-            {
-                var qs = Request.QueryString["evalId"];
-                int id;
-                if (!int.TryParse(qs, out id))
-                {
-                    var raw = Page.RouteData.Values["evalId"] as string;
-                    if (!int.TryParse(raw, out id)) id = 0;
-                }
-                return id;
-            }
-        }
-
         private int? PreguntaId
         {
             get
             {
-                var qs = Request.QueryString["id"];
                 int id;
-                if (!int.TryParse(qs, out id))
-                {
-                    var raw = Page.RouteData.Values["id"] as string;
-                    if (!int.TryParse(raw, out id)) return null;
-                }
-                return id;
+                return int.TryParse(Request.QueryString["preguntaId"], out id) ? id : (int?)null;
+            }
+        }
+
+        private int? EvaluacionIdFromQuery
+        {
+            get
+            {
+                int id;
+                return int.TryParse(Request.QueryString["evaluacionId"], out id) ? id : (int?)null;
             }
         }
 
@@ -44,173 +29,222 @@ namespace bluesky.Admin
         {
             if (!IsPostBack)
             {
-                CargarCabeceraYEnlaces();
-                CargarFormulario();
-            }
-        }
-
-        private void CargarCabeceraYEnlaces()
-        {
-            if (EvalId <= 0) { lblMsg.Text = "Evaluación inválida."; return; }
-
-            using (var db = new ApplicationDbContext())
-            {
-                var eval = db.Evaluaciones.Where(e => e.Id == EvalId)
-                    .Select(e => new { e.Id, e.Titulo })
-                    .FirstOrDefault();
-
-                if (eval == null) { lblMsg.Text = "Evaluación no encontrada."; return; }
-
-                litTitulo.Text = (PreguntaId.HasValue ? "Editar pregunta" : "Nueva pregunta") +
-                                 " · " + eval.Titulo;
-
-                lnkVolver.NavigateUrl = ResolveUrl($"~/Admin/AdminEvaluacionPreguntas.aspx?evalId={EvalId}");
-            }
-        }
-
-        private void CargarFormulario()
-        {
-            if (!PreguntaId.HasValue)
-            {
-                // carga 4 alternativas por defecto
-                var seed = Enumerable.Range(1, 4).Select(i => new AltVM
+                int? evalId = EvaluacionIdFromQuery;
+                if (!evalId.HasValue)
                 {
-                    Orden = i,
-                    Texto = "",
-                    EsCorrecta = (i == 1)
-                }).ToList();
+                    lblMsg.Text = "Evaluación no especificada.";
+                    btnGuardar.Enabled = false;
+                    return;
+                }
 
-                repAlternativas.DataSource = seed;
-                repAlternativas.DataBind();
-                return;
+                hfEvalId.Value = evalId.Value.ToString();
+                hfPreguntaId.Value = PreguntaId.HasValue ? PreguntaId.Value.ToString() : "";
+
+                CargarCabecera(evalId.Value);
+
+                litTitulo.Text = PreguntaId.HasValue ? "Editar pregunta" : "Nueva pregunta";
+
+                if (PreguntaId.HasValue)
+                    CargarPregunta(PreguntaId.Value);
             }
+        }
 
+        private void CargarCabecera(int evalId)
+        {
             using (var db = new ApplicationDbContext())
             {
-                var p = db.Preguntas.FirstOrDefault(x => x.Id == PreguntaId.Value && x.EvaluacionId == EvalId);
-                if (p == null) { lblMsg.Text = "Pregunta no encontrada."; return; }
+                var eva = db.Evaluaciones.Find(evalId);
+                if (eva == null)
+                {
+                    lblMsg.Text = "Evaluación no encontrada.";
+                    btnGuardar.Enabled = false;
+                    return;
+                }
+
+                var curso = db.Cursos.Find(eva.CursoId);
+
+                lblCurso.Text = curso != null ? curso.Titulo : "(curso sin título)";
+                lblEvaluacion.Text = eva.Titulo;
+            }
+        }
+
+        private void CargarPregunta(int preguntaId)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var p = db.Preguntas.Find(preguntaId);
+                if (p == null)
+                {
+                    lblMsg.Text = "Pregunta no encontrada.";
+                    return;
+                }
 
                 txtEnunciado.Text = p.Enunciado;
                 txtCategoria.Text = p.Categoria;
-                txtDificultad.Text = p.Dificultad.ToString();
-                txtOrden.Text = p.Orden.ToString();
-                chkMultiple.Checked = p.MultipleRespuesta;
-                chkActiva.Checked = p.Activa;
+                ddlDificultad.SelectedValue = p.Dificultad.ToString();
 
-                var alts = p.Alternativas
+                var alts = db.Alternativas
+                    .Where(a => a.PreguntaId == p.Id && a.Activa)
                     .OrderBy(a => a.Orden)
-                    .Select(a => new AltVM { Orden = a.Orden, Texto = a.Texto, EsCorrecta = a.EsCorrecta })
                     .ToList();
 
-                if (alts.Count < 2)
+                if (alts.Count > 0)
                 {
-                    while (alts.Count < 2) alts.Add(new AltVM { Orden = alts.Count + 1 });
+                    if (alts.Count > 0) txtAlt1.Text = alts.ElementAtOrDefault(0)?.Texto;
+                    if (alts.Count > 1) txtAlt2.Text = alts.ElementAtOrDefault(1)?.Texto;
+                    if (alts.Count > 2) txtAlt3.Text = alts.ElementAtOrDefault(2)?.Texto;
+                    if (alts.Count > 3) txtAlt4.Text = alts.ElementAtOrDefault(3)?.Texto;
+
+                    rbCorrecta1.Checked = alts.ElementAtOrDefault(0)?.EsCorrecta ?? false;
+                    rbCorrecta2.Checked = alts.ElementAtOrDefault(1)?.EsCorrecta ?? false;
+                    rbCorrecta3.Checked = alts.ElementAtOrDefault(2)?.EsCorrecta ?? false;
+                    rbCorrecta4.Checked = alts.ElementAtOrDefault(3)?.EsCorrecta ?? false;
                 }
-                repAlternativas.DataSource = alts;
-                repAlternativas.DataBind();
             }
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (EvalId <= 0) { lblMsg.Text = "Evaluación inválida."; return; }
+            if (!Page.IsValid) return;
 
-            int dificultad, orden;
-            if (!int.TryParse(txtDificultad.Text, out dificultad)) dificultad = 1;
-            if (!int.TryParse(txtOrden.Text, out orden)) orden = 1;
+            int evalId;
+            if (!int.TryParse(hfEvalId.Value, out evalId))
+            {
+                lblMsg.Text = "Evaluación inválida.";
+                return;
+            }
 
-            var alts = LeerAlternativasDesdeUI();
+            if (string.IsNullOrWhiteSpace(txtEnunciado.Text))
+            {
+                lblMsg.Text = "El enunciado es obligatorio.";
+                return;
+            }
 
-            // Validaciones básicas
-            if (alts.Count < 2) { lblMsg.Text = "Debes registrar al menos 2 alternativas."; return; }
-            if (!alts.Any(a => a.EsCorrecta)) { lblMsg.Text = "Debe haber al menos una alternativa correcta."; return; }
-            if (alts.Count > 6) { lblMsg.Text = "Máximo 6 alternativas."; return; }
+            // Al menos una alternativa con texto
+            var alt1 = txtAlt1.Text.Trim();
+            var alt2 = txtAlt2.Text.Trim();
+            var alt3 = txtAlt3.Text.Trim();
+            var alt4 = txtAlt4.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(alt1) &&
+                string.IsNullOrWhiteSpace(alt2) &&
+                string.IsNullOrWhiteSpace(alt3) &&
+                string.IsNullOrWhiteSpace(alt4))
+            {
+                lblMsg.Text = "Debes ingresar al menos una alternativa.";
+                return;
+            }
+
+            // Debe haber una correcta
+            int indexCorrecta = -1;
+            if (rbCorrecta1.Checked) indexCorrecta = 0;
+            else if (rbCorrecta2.Checked) indexCorrecta = 1;
+            else if (rbCorrecta3.Checked) indexCorrecta = 2;
+            else if (rbCorrecta4.Checked) indexCorrecta = 3;
+
+            if (indexCorrecta == -1)
+            {
+                lblMsg.Text = "Debes marcar cuál alternativa es la correcta.";
+                return;
+            }
+
+            int dificultad = 2;
+            int.TryParse(ddlDificultad.SelectedValue, out dificultad);
 
             using (var db = new ApplicationDbContext())
             {
-                // asegura que la eval exista
-                var eval = db.Evaluaciones.FirstOrDefault(x => x.Id == EvalId);
-                if (eval == null) { lblMsg.Text = "Evaluación no encontrada."; return; }
-
-                Pregunta p;
-                if (PreguntaId.HasValue)
+                Pregunta pregunta;
+                if (!string.IsNullOrEmpty(hfPreguntaId.Value))
                 {
-                    p = db.Preguntas.FirstOrDefault(x => x.Id == PreguntaId.Value && x.EvaluacionId == EvalId);
-                    if (p == null) { lblMsg.Text = "Pregunta no encontrada."; return; }
+                    int pregId = int.Parse(hfPreguntaId.Value);
+                    pregunta = db.Preguntas.FirstOrDefault(p => p.Id == pregId);
+                    if (pregunta == null)
+                    {
+                        lblMsg.Text = "Pregunta no encontrada.";
+                        return;
+                    }
                 }
                 else
                 {
-                    p = new Pregunta
+                    // Nuevo -> calcular orden secuencial
+                    var maxOrden = db.Preguntas
+                        .Where(p => p.EvaluacionId == evalId && p.Activa)
+                        .Select(p => (int?)p.Orden)
+                        .Max() ?? 0;
+
+                    pregunta = new Pregunta
                     {
-                        EvaluacionId = EvalId,
-                        Activa = true
+                        EvaluacionId = evalId,
+                        Orden = maxOrden + 1,
+                        Activa = true,
+                        MultipleRespuesta = false
                     };
-                    db.Preguntas.Add(p);
+                    db.Preguntas.Add(pregunta);
                 }
 
-                p.Enunciado = txtEnunciado.Text.Trim();
-                p.Categoria = string.IsNullOrWhiteSpace(txtCategoria.Text) ? null : txtCategoria.Text.Trim();
-                p.Dificultad = (DificultadPregunta)dificultad;
-                p.MultipleRespuesta = chkMultiple.Checked;
-                p.Orden = orden;
-                p.Activa = chkActiva.Checked;
+                // Datos base
+                pregunta.Enunciado = txtEnunciado.Text.Trim();
+                pregunta.Categoria = string.IsNullOrWhiteSpace(txtCategoria.Text)
+                    ? null
+                    : txtCategoria.Text.Trim();
+                pregunta.Dificultad = (DificultadPregunta)dificultad;
+                pregunta.MultipleRespuesta = false; // por ahora, solo una correcta
 
-                // Guardamos para tener Id si es nueva
                 db.SaveChanges();
 
-                // Alternativas: estrategia simple -> borrar y recrear
-                var actuales = db.Alternativas.Where(a => a.PreguntaId == p.Id).ToList();
-                db.Alternativas.RemoveRange(actuales);
-                db.SaveChanges();
+                // Alternativas
+                var existentes = db.Alternativas
+                    .Where(a => a.PreguntaId == pregunta.Id)
+                    .OrderBy(a => a.Orden)
+                    .ToList();
 
-                int idx = 1;
-                foreach (var a in alts.OrderBy(x => x.Orden))
+                string[] textos = { alt1, alt2, alt3, alt4 };
+
+                for (int i = 0; i < 4; i++)
                 {
-                    if (string.IsNullOrWhiteSpace(a.Texto)) continue;
+                    var t = textos[i];
+                    if (string.IsNullOrWhiteSpace(t)) t = "Opción";
 
-                    db.Alternativas.Add(new Alternativa
+                    Alternativa alt;
+                    if (i < existentes.Count)
                     {
-                        PreguntaId = p.Id,
-                        Texto = a.Texto.Trim(),
-                        EsCorrecta = a.EsCorrecta,
-                        Orden = idx++,
-                        Activa = true
-                    });
+                        alt = existentes[i];
+                    }
+                    else
+                    {
+                        alt = new Alternativa
+                        {
+                            PreguntaId = pregunta.Id
+                        };
+                        db.Alternativas.Add(alt);
+                    }
+
+                    alt.Texto = t;
+                    alt.EsCorrecta = (i == indexCorrecta);
+                    alt.Orden = i + 1;
+                    alt.Activa = true;
                 }
-                db.SaveChanges();
 
-                Response.Redirect($"~/Admin/AdminEvaluacionPreguntas.aspx?evalId={EvalId}");
-            }
-        }
-
-        private List<AltVM> LeerAlternativasDesdeUI()
-        {
-            var list = new List<AltVM>();
-            foreach (RepeaterItem it in repAlternativas.Items)
-            {
-                var txtOrd = (TextBox)it.FindControl("txtAltOrden");
-                var txtTxt = (TextBox)it.FindControl("txtAltTexto");
-                var chkOk = (CheckBox)it.FindControl("chkAltCorrecta");
-
-                int orden;
-                if (!int.TryParse(txtOrd.Text, out orden)) orden = 999;
-
-                list.Add(new AltVM
+                // Si habían más de 4 en BD, las marcamos inactivas
+                if (existentes.Count > 4)
                 {
-                    Orden = orden,
-                    Texto = txtTxt.Text,
-                    EsCorrecta = chkOk.Checked
-                });
+                    foreach (var extra in existentes.Skip(4))
+                        extra.Activa = false;
+                }
+
+                db.SaveChanges();
             }
-            // filtra completamente vacías
-            return list.Where(a => !string.IsNullOrWhiteSpace(a.Texto)).ToList();
+
+            Response.Redirect("~/Admin/AdminEvaluacionPreguntas.aspx?evaluacionId=" + evalId);
         }
 
-        private class AltVM
+        protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            public int Orden { get; set; }
-            public string Texto { get; set; }
-            public bool EsCorrecta { get; set; }
+            int evalId;
+            if (!int.TryParse(hfEvalId.Value, out evalId))
+                Response.Redirect("~/Admin/AdminEvaluaciones.aspx");
+            else
+                Response.Redirect("~/Admin/AdminEvaluacionPreguntas.aspx?evaluacionId=" + evalId);
         }
     }
 }

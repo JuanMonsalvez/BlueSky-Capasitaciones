@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="Editar Evaluación" Language="C#" MasterPageFile="~/MasterPages/Site.Master"
-    AutoEventWireup="true" CodeBehind="EvaluacionEditar.aspx.cs" Inherits="bluesky.Admin.EvaluacionEditar" %>
+    AutoEventWireup="true" CodeBehind="AdminEvaluacionEditar.aspx.cs" Inherits="bluesky.Admin.EvaluacionEditar" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
   <div class="container">
@@ -41,6 +41,14 @@
 
         <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
         <a runat="server" href="~/Admin/AdminEvaluaciones.aspx" class="btn btn-default">Cancelar</a>
+
+        <asp:Button ID="btnEditarPreguntas" runat="server"
+            Text="Editar preguntas"
+            CssClass="btn btn-info"
+            OnClick="btnEditarPreguntas_Click"
+            CausesValidation="false"
+            Style="margin-left:10px;" />
+
 
         <asp:Label ID="lblMsg" runat="server" CssClass="text-danger" Style="display:block;margin-top:10px;" />
       </div>

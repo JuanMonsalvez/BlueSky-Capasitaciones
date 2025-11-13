@@ -15,6 +15,24 @@ namespace bluesky.Admin
     {
 
         /// <summary>
+        /// Control hfEvalId.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfEvalId;
+
+        /// <summary>
+        /// Control hfPreguntaId.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfPreguntaId;
+
+        /// <summary>
         /// Control litTitulo.
         /// </summary>
         /// <remarks>
@@ -24,13 +42,31 @@ namespace bluesky.Admin
         protected global::System.Web.UI.WebControls.Literal litTitulo;
 
         /// <summary>
-        /// Control valSummary.
+        /// Control lblCurso.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ValidationSummary valSummary;
+        protected global::System.Web.UI.WebControls.Label lblCurso;
+
+        /// <summary>
+        /// Control lblEvaluacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEvaluacion;
+
+        /// <summary>
+        /// Control lblMsg.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMsg;
 
         /// <summary>
         /// Control txtEnunciado.
@@ -42,13 +78,13 @@ namespace bluesky.Admin
         protected global::System.Web.UI.WebControls.TextBox txtEnunciado;
 
         /// <summary>
-        /// Control reqEnun.
+        /// Control reqEnunciado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqEnun;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqEnunciado;
 
         /// <summary>
         /// Control txtCategoria.
@@ -60,49 +96,85 @@ namespace bluesky.Admin
         protected global::System.Web.UI.WebControls.TextBox txtCategoria;
 
         /// <summary>
-        /// Control txtDificultad.
+        /// Control ddlDificultad.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDificultad;
+        protected global::System.Web.UI.WebControls.DropDownList ddlDificultad;
 
         /// <summary>
-        /// Control txtOrden.
+        /// Control rbCorrecta1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtOrden;
+        protected global::System.Web.UI.WebControls.RadioButton rbCorrecta1;
 
         /// <summary>
-        /// Control chkMultiple.
+        /// Control txtAlt1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkMultiple;
+        protected global::System.Web.UI.WebControls.TextBox txtAlt1;
 
         /// <summary>
-        /// Control chkActiva.
+        /// Control rbCorrecta2.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkActiva;
+        protected global::System.Web.UI.WebControls.RadioButton rbCorrecta2;
 
         /// <summary>
-        /// Control repAlternativas.
+        /// Control txtAlt2.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater repAlternativas;
+        protected global::System.Web.UI.WebControls.TextBox txtAlt2;
+
+        /// <summary>
+        /// Control rbCorrecta3.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton rbCorrecta3;
+
+        /// <summary>
+        /// Control txtAlt3.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAlt3;
+
+        /// <summary>
+        /// Control rbCorrecta4.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton rbCorrecta4;
+
+        /// <summary>
+        /// Control txtAlt4.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAlt4;
 
         /// <summary>
         /// Control btnGuardar.
@@ -114,21 +186,12 @@ namespace bluesky.Admin
         protected global::System.Web.UI.WebControls.Button btnGuardar;
 
         /// <summary>
-        /// Control lnkVolver.
+        /// Control btnCancelar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkVolver;
-
-        /// <summary>
-        /// Control lblMsg.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMsg;
+        protected global::System.Web.UI.WebControls.Button btnCancelar;
     }
 }

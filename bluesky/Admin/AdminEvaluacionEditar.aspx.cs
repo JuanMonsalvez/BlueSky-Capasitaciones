@@ -137,5 +137,18 @@ namespace bluesky.Admin
             decimal v;
             return decimal.TryParse(s, out v) ? v : def;
         }
+
+        protected void btnEditarPreguntas_Click(object sender, EventArgs e)
+        {
+            if (!EvalId.HasValue)
+            {
+                lblMsg.Text = "Debes guardar la evaluación antes de editar sus preguntas.";
+                return;
+            }
+
+            Response.Redirect("~/Admin/AdminEvaluacionPreguntas.aspx?evaluacionId=" + EvalId.Value);
+        }
+
+
     }
 }

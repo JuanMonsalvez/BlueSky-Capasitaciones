@@ -1,75 +1,69 @@
-﻿<%@ Page Title="Preguntas de Evaluación" Language="C#" MasterPageFile="~/MasterPages/Site.Master"
-    AutoEventWireup="true" CodeBehind="AdminEvaluacionPreguntas.aspx.cs"
+﻿<%@ Page Language="C#" 
+    MasterPageFile="~/MasterPages/Site.Master"
+    AutoEventWireup="true" 
+    CodeBehind="AdminEvaluacionPreguntas.aspx.cs" 
     Inherits="bluesky.Admin.AdminEvaluacionPreguntas" %>
 
-<asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="container" style="max-width:1100px">
-        <h2 class="mb-3">
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="container" style="margin-top:20px;">
+        <asp:HiddenField ID="hfEvalId" runat="server" />
+
+        <h2>
             Preguntas de evaluación
-            <small class="text-muted">(<asp:Literal ID="litEvalTitulo" runat="server" />)</small>
+            <small>
+                <asp:Label ID="lblCurso" runat="server"></asp:Label> - 
+                <asp:Label ID="lblEvaluacion" runat="server"></asp:Label>
+            </small>
         </h2>
 
-        <div class="mb-3">
-            <a id="lnkVolver" runat="server" class="btn btn-default">← Volver a Evaluaciones</a>
-            <a id="lnkNueva" runat="server" class="btn btn-primary">+ Nueva pregunta</a>
+        <asp:Label ID="lblMsg" runat="server" CssClass="text-danger" EnableViewState="false"></asp:Label>
+
+        <div style="margin:15px 0;">
+            <asp:Button ID="btnVolver" runat="server" Text="&lt; Volver a evaluaciones" 
+                CssClass="btn btn-default"
+                OnClick="btnVolver_Click" />
+
+            <asp:Button ID="btnNuevaPregunta" runat="server" Text="Nueva pregunta"
+                CssClass="btn btn-primary" 
+                Style="margin-left:10px;"
+                OnClick="btnNuevaPregunta_Click" />
         </div>
 
-        <asp:Panel ID="pnlVacio" runat="server" Visible="false" CssClass="alert alert-info">
-            Aún no hay preguntas para esta evaluación.
-        </asp:Panel>
-
-        <asp:Repeater ID="repPreguntas" runat="server">
-            <HeaderTemplate>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th style="width:70px;">#</th>
-                            <th>Enunciado</th>
-                            <th style="width:120px;">Dificultad</th>
-                            <th style="width:120px;">Múltiple</th>
-                            <th style="width:140px;">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            </HeaderTemplate>
-            <ItemTemplate>
-                <tr>
-                    <td><%# Eval("Orden") %></td>
-                    <td>
-                        <div><strong><%# Eval("Enunciado") %></strong></div>
-                        <small class="text-muted">
-                            <%# string.IsNullOrEmpty((string)Eval("Categoria")) ? "" : "Categoría: " + Eval("Categoria") %>
-                        </small>
-                        <div style="margin-top:6px;">
-                            <asp:Repeater ID="repAlternativas" runat="server" DataSource='<%# Eval("Alternativas") %>'>
-                                <ItemTemplate>
-                                    <div>
-                                        • <%# Eval("Texto") %>
-                                        <%# (bool)Eval("EsCorrecta") ? " <span class=\"label label-success\">correcta</span>" : "" %>
-                                    </div>
-                                </ItemTemplate>
-                            </asp:Repeater>
-                        </div>
-                    </td>
-                    <td><%# Eval("Dificultad") %></td>
-                    <td><%# ((bool)Eval("MultipleRespuesta")) ? "Sí" : "No" %></td>
-                    <td>
-                        <asp:LinkButton ID="btnEditar" runat="server" CssClass="btn btn-xs btn-primary"
-                            CommandName="edit" CommandArgument='<%# Eval("Id") %>'>Editar</asp:LinkButton>
-                        <asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-xs btn-danger"
-                            OnClientClick="return confirm('¿Eliminar esta pregunta?');"
-                            CommandName="del" CommandArgument='<%# Eval("Id") %>'>Eliminar</asp:LinkButton>
-                    </td>
-                </tr>
-            </ItemTemplate>
-            <FooterTemplate>
-                    </tbody>
-                </table>
-            </FooterTemplate>
-        </asp:Repeater>
-
-        <asp:Label ID="lblMsg" runat="server" CssClass="text-danger"></asp:Label>
+        <asp:GridView ID="gvPreguntas" runat="server" 
+            CssClass="table table-striped table-bordered"
+            AutoGenerateColumns="False"
+            OnRowCommand="gvPreguntas_RowCommand"
+            DataKeyNames="Id">
+            <Columns>
+                <asp:BoundField DataField="Orden" HeaderText="#" ItemStyle-Width="40px" />
+                <asp:BoundField DataField="EnunciadoResumen" HeaderText="Pregunta" />
+                <asp:BoundField DataField="Categoria" HeaderText="Categoría" />
+                <asp:BoundField DataField="DificultadTexto" HeaderText="Dificultad" ItemStyle-Width="100px" />
+                <asp:BoundField DataField="AlternativasCount" HeaderText="# Alternativas" ItemStyle-Width="80px" />
+                <asp:TemplateField HeaderText="Acciones" ItemStyle-Width="160px">
+                    <ItemTemplate>
+                        <asp:LinkButton ID="lnkEditar" runat="server"
+                            CommandName="EditarPregunta"
+                            CommandArgument='<%# Eval("Id") %>'
+                            CssClass="btn btn-xs btn-primary">
+                            Editar
+                        </asp:LinkButton>
+                        &nbsp;
+                        <asp:LinkButton ID="lnkEliminar" runat="server"
+                            CommandName="EliminarPregunta"
+                            CommandArgument='<%# Eval("Id") %>'
+                            CssClass="btn btn-xs btn-danger"
+                            OnClientClick="return confirm('¿Seguro que deseas eliminar esta pregunta?');">
+                            Eliminar
+                        </asp:LinkButton>
+                    </ItemTemplate>
+                </asp:TemplateField>
+            </Columns>
+            <EmptyDataTemplate>
+                <div class="alert alert-info">
+                    Esta evaluación aún no tiene preguntas. Usa el botón <strong>Nueva pregunta</strong>.
+                </div>
+            </EmptyDataTemplate>
+        </asp:GridView>
     </div>
 </asp:Content>
-
-

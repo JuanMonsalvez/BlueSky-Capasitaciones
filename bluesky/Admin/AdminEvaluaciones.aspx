@@ -19,7 +19,21 @@
                 <asp:BoundField DataField="CursoTitulo" HeaderText="Curso" />
                 <asp:BoundField DataField="Titulo" HeaderText="Título" />
                 <asp:BoundField DataField="Tipo" HeaderText="Tipo" />
-                <asp:BoundField DataField="NumeroPreguntas" HeaderText="Preguntas" />
+                <asp:TemplateField HeaderText="Preguntas" ItemStyle-Width="140px">
+                <ItemTemplate>
+                    <asp:LinkButton ID="lnkPreguntas" runat="server"
+                            CommandName="Preguntas"
+                            CommandArgument='<%# Eval("Id") %>'
+                            CssClass="btn btn-xs btn-info">
+                            Gestionar
+                        </asp:LinkButton>
+                        <br />
+                        <small>
+                            <%# Eval("NumeroPreguntas") %> configuradas
+                        </small>
+                    </ItemTemplate>
+                </asp:TemplateField>
+
                 <asp:BoundField DataField="TiempoMinutos" HeaderText="Tiempo (min)" />
                 <asp:BoundField DataField="PuntajeAprobacion" HeaderText="Aprobación (%)" />
                 <asp:TemplateField HeaderText="Acciones">
@@ -31,6 +45,8 @@
                         OnClientClick="return confirm('¿Eliminar esta evaluación?');">Eliminar</asp:LinkButton>
                     <a href='GenerarPreguntasIA.aspx?evaluacionId=<%# Eval("Id") %>' 
                        class="btn btn-sm btn-success">Generar Preguntas IA</a>
+                    <a href='AdminEvaluacionPreguntas.aspx?evaluacionId=<%# Eval("Id") %>' 
+                        class="btn btn-sm btn-success">Generar Preguntas Manual</a>
                  </ItemTemplate>
             </asp:TemplateField>
             </Columns>

@@ -58,6 +58,11 @@ namespace bluesky.Admin
                 }
                 CargarEvaluaciones();
             }
+            else if (e.CommandName == "Preguntas")
+            {
+                int id = Convert.ToInt32(e.CommandArgument);
+                Response.Redirect("~/Admin/AdminEvaluacionPreguntas.aspx?evaluacionId=" + id);
+            }
         }
 
         protected void btnNuevaEval_Click(object sender, EventArgs e)

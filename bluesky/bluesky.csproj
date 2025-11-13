@@ -540,6 +540,10 @@
     <Compile Include="Migrations\202511112239556_AddAlternativasNavigationToPregunta.Designer.cs">
       <DependentUpon>202511112239556_AddAlternativasNavigationToPregunta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202511130231016_EvalPoliticaIntentos.cs" />
+    <Compile Include="Migrations\202511130231016_EvalPoliticaIntentos.Designer.cs">
+      <DependentUpon>202511130231016_EvalPoliticaIntentos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Alternativa.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -715,6 +719,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202511112239556_AddAlternativasNavigationToPregunta.resx">
       <DependentUpon>202511112239556_AddAlternativasNavigationToPregunta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202511130231016_EvalPoliticaIntentos.resx">
+      <DependentUpon>202511130231016_EvalPoliticaIntentos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

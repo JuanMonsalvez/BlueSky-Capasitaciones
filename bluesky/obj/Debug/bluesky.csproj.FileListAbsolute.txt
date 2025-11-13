@@ -1,3 +1,12 @@
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.AssemblyReference.cache
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.InitAuth.resources
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.Inicial.resources
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.AgregarCampoTelefonoAUsuarios.resources
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.Curso_PortadaUrl.resources
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.AddAlternativasNavigationToPregunta.resources
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\EvalPoliticaIntentos.resources
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.GenerateResource.cache
+D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.CoreCompileInputs.cache
 D:\BlueSky-Capasitaciones\bluesky\bin\bluesky.dll.config
 D:\BlueSky-Capasitaciones\bluesky\bin\bluesky.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\bluesky.pdb
@@ -165,14 +174,6 @@ D:\BlueSky-Capasitaciones\bluesky\bin\System.ValueTuple.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\System.Web.Optimization.xml
 D:\BlueSky-Capasitaciones\bluesky\bin\es\Microsoft.AspNet.FriendlyUrls.resources.dll
 D:\BlueSky-Capasitaciones\bluesky\bin\es\System.Web.Optimization.resources.dll
-D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.AssemblyReference.cache
-D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.InitAuth.resources
-D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.Inicial.resources
-D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.AgregarCampoTelefonoAUsuarios.resources
-D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.Curso_PortadaUrl.resources
-D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.Migrations.AddAlternativasNavigationToPregunta.resources
-D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.GenerateResource.cache
-D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.CoreCompileInputs.cache
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.csproj.Up2Date
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.dll
 D:\BlueSky-Capasitaciones\bluesky\obj\Debug\bluesky.pdb

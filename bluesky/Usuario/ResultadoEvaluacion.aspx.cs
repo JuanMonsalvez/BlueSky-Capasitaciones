@@ -41,7 +41,7 @@ namespace bluesky.Usuario
             }
         }
 
-        private void Error(string msg)
+        private new void Error(string msg)
         {
             pnlBody.Visible = false;
             lblMsg.Text = msg;
