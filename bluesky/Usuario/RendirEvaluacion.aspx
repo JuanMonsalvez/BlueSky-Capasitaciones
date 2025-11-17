@@ -1,25 +1,56 @@
-﻿<%@ Page Title="Rendir evaluación" Language="C#" MasterPageFile="~/MasterPages/Site.Master"
-    AutoEventWireup="true" CodeBehind="RendirEvaluacion.aspx.cs" Inherits="bluesky.Usuario.RendirEvaluacion" %>
+﻿<%@ Page Title="Rendir evaluación"
+    Language="C#"
+    MasterPageFile="~/MasterPages/Site.Master"
+    AutoEventWireup="true"
+    CodeBehind="RendirEvaluacion.aspx.cs"
+    Inherits="bluesky.Usuario.RendirEvaluacion" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <asp:Panel ID="pnlBody" runat="server" Visible="false">
-        <h2><asp:Literal ID="litTitulo" runat="server" /></h2>
-        <p class="text-muted">
-            <b>Curso:</b> <asp:Literal ID="litCurso" runat="server" /> |
-            <b>Tipo:</b> <asp:Literal ID="litTipo" runat="server" /> |
-            <b>N° preguntas:</b> <asp:Literal ID="litPreguntas" runat="server" /> |
-            <b>Tiempo:</b> <asp:Literal ID="litTiempo" runat="server" /> min |
-            <b>Aprobación:</b> <asp:Literal ID="litAprob" runat="server" />%
-        </p>
 
-        <asp:HiddenField ID="hdnEvaluacionId" runat="server" />
-        <asp:HiddenField ID="hdnIntentoId" runat="server" />
+    <asp:HiddenField ID="hfEvaluacionId" runat="server" />
 
-        <asp:Button ID="btnIniciar" runat="server" CssClass="btn btn-primary" Text="Iniciar evaluación"
-            OnClick="btnIniciar_Click" />
+    <div class="container" style="max-width:800px;margin-top:20px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <asp:Literal ID="litTituloCurso" runat="server" /> –
+                    <asp:Literal ID="litTituloEvaluacion" runat="server" />
+                </h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                    <strong>Tiempo:</strong>
+                    <asp:Literal ID="litTiempo" runat="server" /> minutos<br />
+                    <strong>Preguntas:</strong>
+                    <asp:Literal ID="litPreguntas" runat="server" />
+                </p>
 
-        <asp:Label ID="lblInfo" runat="server" CssClass="text-info" Visible="false" />
-    </asp:Panel>
+                <hr />
 
-    <asp:Label ID="lblMsg" runat="server" CssClass="text-danger" Visible="false" />
+                <p>
+                    <strong>Política de intentos:</strong>
+                    <asp:Literal ID="litPolitica" runat="server" />
+                </p>
+
+                <p>
+                    <asp:Label ID="lblIntentosInfo" runat="server" CssClass="text-info" />
+                    <br />
+                    <asp:Label ID="lblIntentoActualInfo" runat="server" CssClass="text-info" />
+                    <br />
+                    <asp:Label ID="lblCooldownInfo" runat="server" CssClass="text-warning" />
+                </p>
+
+                <asp:Label ID="lblError" runat="server" CssClass="text-danger" />
+
+                <div style="margin-top:15px;">
+                    <asp:Button ID="btnComenzar" runat="server"
+                        CssClass="btn btn-primary"
+                        Text="Comenzar evaluación"
+                        OnClick="btnComenzar_Click" />
+                    <a id="lnkVolverCurso" runat="server" class="btn btn-link">Volver al curso</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </asp:Content>

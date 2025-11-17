@@ -15,49 +15,31 @@ namespace bluesky.Usuario
     {
 
         /// <summary>
-        /// Control pnlBody.
+        /// Control hfEvaluacionId.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlBody;
+        protected global::System.Web.UI.WebControls.HiddenField hfEvaluacionId;
 
         /// <summary>
-        /// Control litTitulo.
+        /// Control litTituloCurso.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTitulo;
+        protected global::System.Web.UI.WebControls.Literal litTituloCurso;
 
         /// <summary>
-        /// Control litCurso.
+        /// Control litTituloEvaluacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litCurso;
-
-        /// <summary>
-        /// Control litTipo.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTipo;
-
-        /// <summary>
-        /// Control litPreguntas.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPreguntas;
+        protected global::System.Web.UI.WebControls.Literal litTituloEvaluacion;
 
         /// <summary>
         /// Control litTiempo.
@@ -69,57 +51,75 @@ namespace bluesky.Usuario
         protected global::System.Web.UI.WebControls.Literal litTiempo;
 
         /// <summary>
-        /// Control litAprob.
+        /// Control litPreguntas.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litAprob;
+        protected global::System.Web.UI.WebControls.Literal litPreguntas;
 
         /// <summary>
-        /// Control hdnEvaluacionId.
+        /// Control litPolitica.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnEvaluacionId;
+        protected global::System.Web.UI.WebControls.Literal litPolitica;
 
         /// <summary>
-        /// Control hdnIntentoId.
+        /// Control lblIntentosInfo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnIntentoId;
+        protected global::System.Web.UI.WebControls.Label lblIntentosInfo;
 
         /// <summary>
-        /// Control btnIniciar.
+        /// Control lblIntentoActualInfo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnIniciar;
+        protected global::System.Web.UI.WebControls.Label lblIntentoActualInfo;
 
         /// <summary>
-        /// Control lblInfo.
+        /// Control lblCooldownInfo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblInfo;
+        protected global::System.Web.UI.WebControls.Label lblCooldownInfo;
 
         /// <summary>
-        /// Control lblMsg.
+        /// Control lblError.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMsg;
+        protected global::System.Web.UI.WebControls.Label lblError;
+
+        /// <summary>
+        /// Control btnComenzar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnComenzar;
+
+        /// <summary>
+        /// Control lnkVolverCurso.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor lnkVolverCurso;
     }
 }

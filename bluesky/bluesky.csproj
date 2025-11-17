@@ -322,8 +322,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
-    <Content Include="Content\css\app.css" />
+    <Content Include="css\app.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="css\home-default.css" />
+    <Content Include="css\site.css" />
     <Content Include="Public\Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -670,6 +672,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\images\" />
+    <Folder Include="js\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

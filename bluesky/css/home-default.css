@@ -1,0 +1,482 @@
+﻿/* ============================================
+   BlueSky Financial - Home (Default.aspx)
+   Diseño limpio, moderno y corporativo
+   ============================================ */
+
+/* Paleta base */
+:root {
+	--bs-primary: #1e90ff;
+	--bs-primary-dark: #0b4c9c;
+	--bs-bg-soft: #f5f7fb;
+	--bs-bg-soft-2: #eef2ff;
+	--bs-bg-dark: #0b1120;
+	--bs-text-main: #1f2933;
+	--bs-text-muted: #6b7280;
+	--bs-border-soft: #d0d7e6;
+}
+
+/* Reset suave de secciones */
+.bs-section {
+	padding: 56px 0;
+	position: relative;
+}
+
+.bs-section-soft {
+	padding: 56px 0;
+	background: var(--bs-bg-soft);
+}
+
+/* ---------- HERO ---------- */
+.bs-hero {
+	position: relative;
+	padding: 60px 0 70px;
+	overflow: hidden;
+	background: radial-gradient(circle at top left, #1e90ff, #0b1120);
+	color: #f9fafb;
+}
+
+	.bs-hero .row {
+		position: relative;
+		z-index: 2;
+	}
+
+.bs-hero-kicker {
+	display: inline-block;
+	font-size: 0.78rem;
+	letter-spacing: .18em;
+	text-transform: uppercase;
+	opacity: .9;
+	margin-bottom: 6px;
+	color: #cbe4ff;
+}
+
+.bs-hero-title {
+	font-size: 1.9rem; /* antes 2.2rem */
+	line-height: 1.25;
+	font-weight: 700;
+	margin-bottom: 10px;
+}
+
+.bs-hero-subtitle {
+	font-size: 0.95rem; /* antes 1.02rem */
+	line-height: 1.55;
+	color: #dbeafe;
+	margin-bottom: 16px;
+}
+
+.bs-hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 14px;
+	align-items: center;
+}
+
+.bs-btn-pill {
+	border-radius: 999px;
+}
+
+.bs-hero-btn {
+	padding: 7px 20px; /* un poco más compacto */
+	font-size: 0.9rem;
+	font-weight: 600;
+	border: none;
+	background: linear-gradient(90deg, #1e90ff, #60a5fa);
+}
+
+	.bs-hero-btn:hover {
+		background: linear-gradient(90deg, #1879d4, #3b82f6);
+	}
+
+.bs-link-ghost {
+	color: #e5e7eb;
+	padding-left: 0;
+	font-size: 0.9rem;
+}
+
+	.bs-link-ghost:hover {
+		color: #ffffff;
+		text-decoration: underline;
+	}
+
+/* Tarjeta derecha */
+.bs-hero-card {
+	background: rgba(15, 23, 42, 0.9);
+	border-radius: 18px;
+	padding: 16px 16px 16px;
+	box-shadow: 0 20px 50px rgba(15, 23, 42, 0.7);
+	border: 1px solid rgba(148, 163, 184, 0.5);
+}
+
+	.bs-hero-card h3 {
+		font-size: 1rem; /* antes 1.1rem */
+		margin-bottom: 8px;
+		color: #e5e7eb;
+	}
+
+.bs-hero-tag {
+	display: inline-block;
+	font-size: 0.72rem;
+	text-transform: uppercase;
+	letter-spacing: .12em;
+	padding: 3px 9px;
+	border-radius: 999px;
+	background: rgba(37, 99, 235, 0.15);
+	color: #bfdbfe;
+	margin-bottom: 6px;
+}
+
+.bs-hero-list {
+	list-style: none;
+	padding-left: 0;
+	margin: 8px 0 12px;
+}
+
+	.bs-hero-list li {
+		font-size: 0.88rem;
+		color: #cbd5f5;
+		margin-bottom: 3px;
+	}
+
+	.bs-hero-list i {
+		color: #34d399;
+		margin-right: 5px;
+	}
+
+.bs-hero-metrics {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	padding-top: 8px;
+	border-top: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.bs-metric-label {
+	font-size: 0.72rem;
+	color: #9ca3af;
+}
+
+.bs-metric-value {
+	display: block;
+	font-size: 1rem;
+	font-weight: 600;
+	color: #e5e7eb;
+}
+
+.bs-metric-value--success {
+	color: #4ade80;
+}
+
+/* Fondo decorativo */
+.bs-hero-bg-shape {
+	position: absolute;
+	right: -120px;
+	bottom: -140px;
+	width: 320px;
+	height: 320px;
+	border-radius: 999px;
+	background: radial-gradient(circle, rgba(129, 140, 248, 0.45), transparent 70%);
+	opacity: .75;
+	z-index: 1;
+}
+
+/* Responsivo hero */
+@media (max-width: 767px) {
+	.bs-hero {
+		padding-top: 38px;
+		padding-bottom: 46px;
+		text-align: left;
+	}
+
+	.bs-hero-title {
+		font-size: 1.55rem; /* antes 1.6rem */
+	}
+
+	.bs-hero-subtitle {
+		font-size: 0.92rem;
+	}
+
+	.bs-hero-card {
+		margin-top: 20px;
+	}
+}
+
+/* ---------- HEADERS GENERALES ---------- */
+.bs-section-header {
+	margin-bottom: 20px;
+}
+
+.bs-section-kicker {
+	display: block;
+	font-size: 0.78rem;
+	text-transform: uppercase;
+	letter-spacing: .16em;
+	color: var(--bs-primary-dark);
+	margin-bottom: 4px;
+}
+
+.bs-section-title {
+	font-size: 1.45rem; /* antes 1.6rem */
+	font-weight: 700;
+	color: var(--bs-text-main);
+	margin-bottom: 6px;
+	position: relative;
+	display: inline-block;
+}
+
+	.bs-section-title::after {
+		content: "";
+		display: block;
+		width: 42px;
+		height: 3px;
+		border-radius: 999px;
+		background: linear-gradient(90deg, #1e90ff, #60a5fa);
+		margin-top: 7px;
+	}
+
+.bs-section-title--light {
+	color: #e5e7eb;
+}
+
+	.bs-section-title--light::after {
+		background: linear-gradient(90deg, #93c5fd, #bfdbfe);
+	}
+
+.bs-section-subtitle {
+	max-width: 520px;
+	font-size: 0.9rem; /* antes 0.95rem */
+	color: var(--bs-text-muted);
+	margin: 4px 0 0;
+}
+
+/* ---------- PASOS / CÓMO FUNCIONA ---------- */
+.bs-step-card {
+	background: #ffffff;
+	border-radius: 16px;
+	padding: 16px 14px 16px;
+	margin-bottom: 18px;
+	border: 1px solid var(--bs-border-soft);
+	box-shadow: 0 12px 30px rgba(15, 76, 129, 0.06);
+	transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+	.bs-step-card h3 {
+		font-size: 1rem; /* antes 1.05rem */
+		margin-bottom: 6px;
+		color: var(--bs-text-main);
+	}
+
+	.bs-step-card p {
+		font-size: 0.9rem; /* antes 0.94rem */
+		color: var(--bs-text-muted);
+		margin-bottom: 8px;
+	}
+
+	.bs-step-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 18px 40px rgba(15, 76, 129, 0.12);
+		border-color: rgba(37, 99, 235, 0.4);
+	}
+
+.bs-step-badge {
+	display: inline-block;
+	font-size: 0.8rem;
+	font-weight: 600;
+	padding: 3px 9px;
+	border-radius: 999px;
+	background: var(--bs-bg-soft-2);
+	color: var(--bs-primary-dark);
+	margin-bottom: 5px;
+}
+
+.bs-chip {
+	display: inline-block;
+	font-size: 0.78rem;
+	padding: 3px 8px;
+	border-radius: 999px;
+	background: #edf2ff;
+	color: #1e3a8a;
+	margin-right: 4px;
+	margin-top: 1px;
+}
+
+/* ---------- CURSOS DESTACADOS ---------- */
+.bs-course-card {
+	background: #ffffff;
+	border-radius: 16px;
+	padding: 16px 14px 16px;
+	margin-bottom: 18px;
+	border: 1px solid var(--bs-border-soft);
+	box-shadow: 0 14px 34px rgba(15, 76, 129, 0.08);
+	transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+	.bs-course-card h3 {
+		font-size: 0.98rem; /* antes 1.02rem */
+		margin-bottom: 6px;
+		color: var(--bs-text-main);
+	}
+
+	.bs-course-card p {
+		font-size: 0.9rem; /* antes 0.93rem */
+		color: var(--bs-text-muted);
+		margin-bottom: 10px;
+	}
+
+	.bs-course-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 20px 46px rgba(15, 76, 129, 0.16);
+		border-color: rgba(37, 99, 235, 0.5);
+	}
+
+.bs-course-tag {
+	display: inline-block;
+	font-size: 0.74rem;
+	text-transform: uppercase;
+	letter-spacing: .14em;
+	padding: 3px 8px;
+	border-radius: 999px;
+	background: #eff6ff;
+	color: #1d4ed8;
+	margin-bottom: 6px;
+}
+
+.bs-course-tag--info {
+	background: #ecfeff;
+	color: #0891b2;
+}
+
+.bs-course-tag--success {
+	background: #ecfdf5;
+	color: #16a34a;
+}
+
+.bs-course-meta {
+	display: flex;
+	justify-content: space-between;
+	font-size: 0.82rem; /* un poco más chico */
+	color: #6b7280;
+}
+
+	.bs-course-meta i {
+		margin-right: 4px;
+	}
+
+/* ---------- TESTIMONIOS ---------- */
+.bs-section-dark {
+	background: radial-gradient(circle at top, #0f172a, #020617);
+	color: #e5e7eb;
+}
+
+.bs-testimonial-card {
+	background: radial-gradient(circle at top left, rgba(30, 64, 175, 0.85), rgba(15, 23, 42, 0.95));
+	border-radius: 16px;
+	padding: 16px 14px 16px;
+	margin-bottom: 18px;
+	border: 1px solid rgba(148, 163, 184, 0.6);
+	box-shadow: 0 20px 40px rgba(15, 23, 42, 0.85);
+}
+
+.bs-testimonial-text {
+	font-size: 0.9rem; /* antes 0.94rem */
+	color: #e5e7eb;
+	margin-bottom: 10px;
+}
+
+.bs-testimonial-footer {
+	font-size: 0.82rem;
+	color: #c4d3ff;
+}
+
+.bs-testimonial-name {
+	font-weight: 600;
+}
+
+/* ---------- CONTACTO ---------- */
+.bs-contact-card {
+	background: #ffffff;
+	border-radius: 16px;
+	padding: 18px 16px 20px;
+	border: 1px solid var(--bs-border-soft);
+	box-shadow: 0 20px 50px rgba(15, 76, 129, 0.12);
+	margin-bottom: 18px;
+}
+
+.bs-form-group {
+	margin-bottom: 10px;
+}
+
+	.bs-form-group label {
+		display: block;
+		font-size: 0.82rem;
+		font-weight: 600;
+		margin-bottom: 3px;
+		color: #111827;
+	}
+
+.bs-input {
+	border-radius: 999px;
+	border: 1px solid #cbd5f5;
+	box-shadow: none;
+	font-size: 0.9rem;
+	padding-left: 12px;
+}
+
+	.bs-input:focus {
+		border-color: #1e90ff;
+		box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.35);
+	}
+
+.bs-input-textarea {
+	border-radius: 12px;
+	padding-top: 7px;
+	resize: vertical;
+}
+
+.bs-form-actions {
+	margin-top: 8px;
+}
+
+.bs-contact-side h3 {
+	font-size: 1rem; /* antes 1.05rem */
+	margin-bottom: 6px;
+	color: var(--bs-text-main);
+}
+
+.bs-contact-list {
+	list-style: none;
+	padding-left: 0;
+	margin: 0 0 10px;
+	font-size: 0.9rem; /* antes 0.92rem */
+	color: var(--bs-text-muted);
+}
+
+	.bs-contact-list li {
+		margin-bottom: 5px;
+	}
+
+	.bs-contact-list i {
+		margin-right: 6px;
+		color: var(--bs-primary);
+	}
+
+.bs-contact-highlight {
+	font-size: 0.88rem;
+	padding: 9px 11px;
+	border-radius: 12px;
+	background: #eff6ff;
+	color: #1e3a8a;
+	border: 1px dashed rgba(37, 99, 235, 0.4);
+}
+
+/* Pequeños ajustes móviles */
+@media (max-width: 767px) {
+	.bs-section,
+	.bs-section-soft {
+		padding: 44px 0;
+	}
+
+	.bs-contact-card,
+	.bs-contact-side {
+		margin-top: 8px;
+	}
+}

@@ -1,231 +1,294 @@
 ﻿using System;
 using System.Linq;
-using System.Web;
-using bluesky.App_Code;                // ProtectedPage
+using System.Web.UI;
+using System.Data.Entity;
 using bluesky.Models;
-using bluesky.Services.Security;       // AuthHelper
+using bluesky.Services.Security;
+
+// Alias para evitar confusión con otras clases Evaluacion en el namespace bluesky.Usuario
+using EvaluacionModel = bluesky.Models.Evaluacion;
+using PoliticaIntentosEvaluacionModel = bluesky.Models.PoliticaIntentosEvaluacion;
 
 namespace bluesky.Usuario
 {
-    public partial class RendirEvaluacion : ProtectedPage
+    public partial class RendirEvaluacion : Page
     {
-        protected int? EvaluacionId
+        /// <summary>
+        /// Id de la evaluación recibido por querystring (?evaluacionId=###)
+        /// </summary>
+        private int EvaluacionId
         {
             get
             {
                 int id;
-                return int.TryParse(Request.QueryString["evaluacionId"], out id) ? id : (int?)null;
+                if (int.TryParse(Request.QueryString["evaluacionId"], out id))
+                    return id;
+
+                return 0;
             }
         }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack) Cargar();
+            if (!IsPostBack)
+            {
+                AuthHelper.EnsureAuthenticatedOrRedirect("~/Auth/IniciarSesion.aspx");
+
+                if (EvaluacionId <= 0)
+                {
+                    lblError.Text = "Evaluación no especificada.";
+                    btnComenzar.Enabled = false;
+                    return;
+                }
+
+                CargarEvaluacionYIntentos();
+            }
         }
 
-        private void Cargar()
+        private void CargarEvaluacionYIntentos()
         {
-            if (!EvaluacionId.HasValue)
+            var userId = AuthHelper.GetCurrentUserId();
+            if (userId == null)
             {
-                MostrarError("Evaluación no especificada.");
-                return;
-            }
-
-            var uid = AuthHelper.GetCurrentUserId();
-            if (uid == null)
-            {
-                MostrarError("Tu sesión expiró. Inicia sesión nuevamente.");
+                lblError.Text = "Debes iniciar sesión.";
+                btnComenzar.Enabled = false;
                 return;
             }
 
             using (var db = new ApplicationDbContext())
             {
-                var eval = db.Evaluaciones.FirstOrDefault(x => x.Id == EvaluacionId.Value && x.Activa);
-                if (eval == null)
+                EvaluacionModel eva = db.Evaluaciones
+                    .Include(e => e.Curso)
+                    .FirstOrDefault(e => e.Id == EvaluacionId);
+
+                if (eva == null)
                 {
-                    MostrarError("La evaluación no existe o no está activa.");
+                    lblError.Text = "Evaluación no encontrada.";
+                    btnComenzar.Enabled = false;
                     return;
                 }
 
-                // ¿Intento abierto?
-                var intentoAbierto = db.IntentosEvaluacion
-                    .Where(i => i.UsuarioId == uid && i.EvaluacionId == eval.Id && i.FechaFin == null)
-                    .OrderByDescending(i => i.Id)
-                    .FirstOrDefault();
+                // Datos básicos
+                hfEvaluacionId.Value = eva.Id.ToString();
+                litTituloCurso.Text = eva.Curso != null ? eva.Curso.Titulo : "(Curso)";
+                litTituloEvaluacion.Text = eva.Titulo;
+                litTiempo.Text = eva.TiempoMinutos.ToString();
+                litPreguntas.Text = eva.NumeroPreguntas.ToString();
 
-                if (intentoAbierto != null)
+                // Link volver al curso
+                lnkVolverCurso.HRef = "~/Usuario/CursoDetalle.aspx?cursoId=" + eva.CursoId;
+
+                // Descripción de política
+                string politicaDesc;
+                switch (eva.PoliticaIntentos)
                 {
-                    hdnIntentoId.Value = intentoAbierto.Id.ToString();
-                    lblInfo.Text = "Tienes un intento en curso. Te redirigiremos a las preguntas.";
-                    lblInfo.Visible = true;
-                    Response.Redirect("~/Usuario/RendirEvaluacionPreguntas.aspx?intentoId=" + intentoAbierto.Id, true);
+                    case PoliticaIntentosEvaluacionModel.Bloqueado:
+                        politicaDesc = "Bloqueada: no se permiten intentos.";
+                        break;
+
+                    case PoliticaIntentosEvaluacionModel.Ilimitado:
+                        politicaDesc = "Ilimitado (sin límite de intentos).";
+                        break;
+
+                    case PoliticaIntentosEvaluacionModel.MaximoPorDia:
+                    default:
+                        int max = eva.MaxIntentosPorDia <= 0 ? 3 : eva.MaxIntentosPorDia;
+                        int horas = eva.CooldownHoras <= 0 ? 24 : eva.CooldownHoras;
+                        politicaDesc = $"{max} intento(s) en una ventana de {horas} horas.";
+                        break;
+                }
+                litPolitica.Text = politicaDesc;
+
+                // Calcular intentos en ventana
+                int usados, restantes;
+                DateTime? proximoUtc;
+                CalcularIntentosVentana(db, eva, userId.Value, out usados, out restantes, out proximoUtc);
+
+                // Manejo por política
+                if (eva.PoliticaIntentos == PoliticaIntentosEvaluacionModel.Bloqueado)
+                {
+                    lblIntentosInfo.Text = "Esta evaluación está bloqueada para todos los usuarios.";
+                    lblIntentoActualInfo.Text = "";
+                    lblCooldownInfo.Text = "";
+                    btnComenzar.Enabled = false;
                     return;
                 }
 
-                // Validar política de intentos
-                string mensajeBloqueo;
-                if (!PuedeIniciarIntento(db, eval, uid.Value, out mensajeBloqueo))
+                if (eva.PoliticaIntentos == PoliticaIntentosEvaluacionModel.Ilimitado)
                 {
-                    MostrarError(mensajeBloqueo);
+                    lblIntentosInfo.Text = "Intentos ilimitados para esta evaluación.";
+                    lblIntentoActualInfo.Text = "";
+                    lblCooldownInfo.Text = "";
+                    btnComenzar.Enabled = true;
                     return;
                 }
 
-                // UI
-                litTitulo.Text = HttpUtility.HtmlEncode(eval.Titulo);
-                litCurso.Text = eval.Curso != null
-                    ? HttpUtility.HtmlEncode(eval.Curso.Titulo)
-                    : "Curso #" + eval.CursoId;
+                int maxIntentos = eva.MaxIntentosPorDia <= 0 ? 3 : eva.MaxIntentosPorDia;
 
-                litTipo.Text = eval.Tipo.ToString();
-                litPreguntas.Text = eval.NumeroPreguntas.ToString();
-                litTiempo.Text = eval.TiempoMinutos.ToString();
-                litAprob.Text = eval.PuntajeAprobacion.ToString("0");
+                lblIntentosInfo.Text =
+                    $"Intentos usados en la ventana actual: {usados}/{maxIntentos}. " +
+                    $"Te quedan {Math.Max(restantes, 0)} intento(s).";
 
-                hdnEvaluacionId.Value = eval.Id.ToString();
+                int numeroIntentoActual = Math.Min(usados + 1, maxIntentos);
+                lblIntentoActualInfo.Text =
+                    $"Si comienzas ahora, este será tu intento {numeroIntentoActual}/{maxIntentos}.";
 
-                pnlBody.Visible = true;
-                lblMsg.Visible = false;
-            }
-        }
-
-        protected void btnIniciar_Click(object sender, EventArgs e)
-        {
-            int evalId;
-            if (!int.TryParse(hdnEvaluacionId.Value, out evalId))
-            {
-                MostrarError("Evaluación no válida.");
-                return;
-            }
-
-            var uid = AuthHelper.GetCurrentUserId();
-            if (uid == null)
-            {
-                MostrarError("Tu sesión expiró. Inicia sesión nuevamente.");
-                return;
-            }
-
-            using (var db = new ApplicationDbContext())
-            {
-                var eval = db.Evaluaciones.FirstOrDefault(x => x.Id == evalId && x.Activa);
-                if (eval == null)
+                if (restantes <= 0 && proximoUtc.HasValue)
                 {
-                    MostrarError("La evaluación no existe o no está activa.");
-                    return;
+                    var local = proximoUtc.Value.ToLocalTime();
+                    lblCooldownInfo.Text =
+                        "Ya utilizaste todos los intentos permitidos. " +
+                        $"Podrás volver a intentarlo el {local:dd/MM/yyyy HH:mm}.";
+                    btnComenzar.Enabled = false;
                 }
-
-                var existente = db.IntentosEvaluacion
-                    .FirstOrDefault(i => i.UsuarioId == uid && i.EvaluacionId == evalId && i.FechaFin == null);
-
-                if (existente != null)
+                else
                 {
-                    Response.Redirect("~/Usuario/RendirEvaluacionPreguntas.aspx?intentoId=" + existente.Id, true);
-                    return;
+                    lblCooldownInfo.Text = "";
+                    btnComenzar.Enabled = true;
                 }
-
-                // Validar antes de crear
-                string mensajeBloqueo;
-                if (!PuedeIniciarIntento(db, eval, uid.Value, out mensajeBloqueo))
-                {
-                    MostrarError(mensajeBloqueo);
-                    return;
-                }
-
-                var intento = new IntentoEvaluacion
-                {
-                    UsuarioId = uid.Value,
-                    EvaluacionId = evalId,
-                    FechaInicio = DateTime.UtcNow,
-                    PuntajeObtenido = 0m,
-                    Aprobado = false
-                };
-
-                db.IntentosEvaluacion.Add(intento);
-                db.SaveChanges();
-
-                Response.Redirect("~/Usuario/RendirEvaluacionPreguntas.aspx?intentoId=" + intento.Id, true);
             }
         }
 
         /// <summary>
-        /// Aplica la política de intentos configurada en Evaluación.
+        /// Lógica que contabiliza intentos dentro de la ventana y calcula el próximo posible.
         /// </summary>
-        private bool PuedeIniciarIntento(
+        private static void CalcularIntentosVentana(
             ApplicationDbContext db,
-            bluesky.Models.Evaluacion eval,   // <- aquí forzamos el modelo correcto
+            EvaluacionModel eva,
             int userId,
-            out string mensajeBloqueo)
+            out int usados,
+            out int restantes,
+            out DateTime? proximoIntentoUtc)
         {
-            mensajeBloqueo = null;
+            usados = 0;
+            restantes = int.MaxValue;
+            proximoIntentoUtc = null;
 
-            // Bloqueado por admin
-            if (eval.PoliticaIntentos == PoliticaIntentosEvaluacion.Bloqueado)
+            if (eva.PoliticaIntentos == PoliticaIntentosEvaluacionModel.Bloqueado)
             {
-                mensajeBloqueo = "Esta evaluación está bloqueada por el administrador.";
-                return false;
+                restantes = 0;
+                return;
             }
 
-            var ahora = DateTime.UtcNow;
+            if (eva.PoliticaIntentos == PoliticaIntentosEvaluacionModel.Ilimitado)
+            {
+                restantes = int.MaxValue;
+                return;
+            }
 
-            var intentos = db.IntentosEvaluacion
-                .Where(i => i.UsuarioId == userId && i.EvaluacionId == eval.Id)
-                .OrderByDescending(i => i.FechaInicio)
+            // MaximoPorDia / ventana
+            int max = eva.MaxIntentosPorDia <= 0 ? 3 : eva.MaxIntentosPorDia;
+            int horas = eva.CooldownHoras <= 0 ? 24 : eva.CooldownHoras;
+
+            DateTime ahora = DateTime.UtcNow;
+            DateTime desde = ahora.AddHours(-horas);
+
+            var intentosVentana = db.IntentosEvaluacion
+                .Where(i => i.UsuarioId == userId
+                         && i.EvaluacionId == eva.Id
+                         && i.FechaInicio >= desde)
+                .OrderBy(i => i.FechaInicio)
                 .ToList();
 
-            switch (eval.PoliticaIntentos)
+            usados = intentosVentana.Count;
+            restantes = Math.Max(0, max - usados);
+
+            if (restantes <= 0 && intentosVentana.Any())
             {
-                case PoliticaIntentosEvaluacion.MaximoPorDia:
-                    {
-                        var hoy = ahora.Date;
-                        var mañana = hoy.AddDays(1);
-
-                        var intentosHoy = intentos.Count(i =>
-                            i.FechaInicio >= hoy && i.FechaInicio < mañana);
-
-                        if (intentosHoy >= eval.MaxIntentosPorDia)
-                        {
-                            mensajeBloqueo = "Ya utilizaste todos los intentos permitidos para esta evaluación en día de hoy.";
-                            return false;
-                        }
-                        break;
-                    }
-
-                case PoliticaIntentosEvaluacion.IlimitadoConCooldown:
-                    {
-                        var ultimo = intentos.FirstOrDefault();
-                        if (ultimo != null)
-                        {
-                            var baseTime = ultimo.FechaFin ?? ultimo.FechaInicio;
-                            var proximo = baseTime.AddHours(eval.CooldownHoras);
-
-                            if (proximo > ahora)
-                            {
-                                var restante = proximo - ahora;
-                                var horas = (int)Math.Ceiling(restante.TotalHours);
-                                if (horas <= 0) horas = 1;
-
-                                mensajeBloqueo =
-                                    "Debes esperar aproximadamente " + horas +
-                                    " hora(s) antes de volver a intentar esta evaluación.";
-                                return false;
-                            }
-                        }
-                        break;
-                    }
-
-                case PoliticaIntentosEvaluacion.Ilimitado:
-                default:
-                    // sin restricciones
-                    break;
+                DateTime primero = intentosVentana.First().FechaInicio;
+                proximoIntentoUtc = primero.AddHours(horas);
             }
-
-            return true;
         }
 
-        private void MostrarError(string msg)
+        protected void btnComenzar_Click(object sender, EventArgs e)
         {
-            pnlBody.Visible = false;
-            lblMsg.Text = msg;
-            lblMsg.Visible = true;
+            var userId = AuthHelper.GetCurrentUserId();
+            if (userId == null)
+            {
+                AuthHelper.EnsureAuthenticatedOrRedirect("~/Auth/IniciarSesion.aspx");
+                return;
+            }
+
+            int evalId;
+            if (!int.TryParse(hfEvaluacionId.Value, out evalId) || evalId <= 0)
+            {
+                lblError.Text = "Evaluación inválida.";
+                return;
+            }
+
+            using (var db = new ApplicationDbContext())
+            {
+                EvaluacionModel eva = db.Evaluaciones.Find(evalId);
+                if (eva == null)
+                {
+                    lblError.Text = "Evaluación no encontrada.";
+                    return;
+                }
+
+                int usados, restantes;
+                DateTime? proximoUtc;
+                CalcularIntentosVentana(db, eva, userId.Value, out usados, out restantes, out proximoUtc);
+
+                if (eva.PoliticaIntentos == PoliticaIntentosEvaluacionModel.Bloqueado)
+                {
+                    lblError.Text = "Esta evaluación está bloqueada.";
+                    return;
+                }
+
+                if (eva.PoliticaIntentos == PoliticaIntentosEvaluacionModel.Ilimitado)
+                {
+                    CrearIntentoYRedirigir(db, eva, userId.Value, null);
+                    return;
+                }
+
+                int maxIntentos = eva.MaxIntentosPorDia <= 0 ? 3 : eva.MaxIntentosPorDia;
+
+                if (restantes <= 0)
+                {
+                    if (proximoUtc.HasValue)
+                    {
+                        var local = proximoUtc.Value.ToLocalTime();
+                        lblError.Text =
+                            "Ya utilizaste todos los intentos permitidos para esta evaluación. " +
+                            $"Podrás volver a intentarlo el {local:dd/MM/yyyy HH:mm}.";
+                    }
+                    else
+                    {
+                        lblError.Text =
+                            "Ya utilizaste todos los intentos permitidos para esta evaluación.";
+                    }
+                    return;
+                }
+
+                int numeroIntentoActual = Math.Min(usados + 1, maxIntentos);
+                CrearIntentoYRedirigir(db, eva, userId.Value, numeroIntentoActual);
+            }
+        }
+
+        private void CrearIntentoYRedirigir(
+            ApplicationDbContext db,
+            EvaluacionModel eva,
+            int userId,
+            int? numeroIntento)
+        {
+            var intento = new IntentoEvaluacion
+            {
+                UsuarioId = userId,
+                EvaluacionId = eva.Id,
+                FechaInicio = DateTime.UtcNow,
+                PuntajeObtenido = 0m,
+                Aprobado = false
+            };
+
+            db.IntentosEvaluacion.Add(intento);
+            db.SaveChanges();
+
+            int maxIntentos = eva.MaxIntentosPorDia <= 0 ? 3 : eva.MaxIntentosPorDia;
+            int n = numeroIntento ?? 1;
+
+            string url =
+                $"~/Usuario/RendirEvaluacionPreguntas.aspx?intentoId={intento.Id}&nIntento={n}&maxIntentos={maxIntentos}";
+            Response.Redirect(url, false);
         }
     }
 }

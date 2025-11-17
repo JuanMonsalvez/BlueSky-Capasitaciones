@@ -1,51 +1,102 @@
 ﻿using System;
 using System.Linq;
-using System.Web;
-using bluesky.App_Code;    // ProtectedPage
+using System.Web.UI;
 using bluesky.Models;
+using bluesky.App_Code;
 
 namespace bluesky.Usuario
 {
     public partial class ResultadoEvaluacion : ProtectedPage
     {
-        protected int? IntentoId
-        {
-            get { int id; return int.TryParse(Request.QueryString["intentoId"], out id) ? id : (int?)null; }
-        }
-
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack) Cargar();
+            if (IsPostBack) return;
+
+            int intentoId;
+            if (!int.TryParse(Request.QueryString["intentoId"], out intentoId))
+            {
+                MostrarMensaje("No se especificó el intento de evaluación.");
+                return;
+            }
+
+            CargarResultado(intentoId);
         }
 
-        private void Cargar()
+        private void MostrarMensaje(string msg)
         {
-            if (!IntentoId.HasValue) { Error("Intento no especificado."); return; }
+            pnlResultado.Visible = false;
+            lblMensaje.Text = msg;
+            lblMensaje.Visible = true;
+        }
 
+        private void CargarResultado(int intentoId)
+        {
             using (var db = new ApplicationDbContext())
             {
-                var intento = db.IntentosEvaluacion.FirstOrDefault(i => i.Id == IntentoId.Value);
-                if (intento == null) { Error("Intento no encontrado."); return; }
+                var intento = db.IntentosEvaluacion.Find(intentoId);
+                if (intento == null)
+                {
+                    MostrarMensaje("Intento de evaluación no encontrado.");
+                    return;
+                }
 
-                var eval = db.Evaluaciones.FirstOrDefault(e => e.Id == intento.EvaluacionId);
-                if (eval == null) { Error("Evaluación no encontrada."); return; }
+                var evaluacion = db.Evaluaciones.Find(intento.EvaluacionId);
+                if (evaluacion == null)
+                {
+                    MostrarMensaje("Evaluación no encontrada.");
+                    return;
+                }
 
-                litEval.Text = HttpUtility.HtmlEncode(eval.Titulo);
-                litPuntaje.Text = intento.PuntajeObtenido.ToString("0.##");
-                litEstado.Text = intento.Aprobado ? "APROBADO ✅" : "REPROBADO ❌";
+                var curso = db.Cursos.Find(evaluacion.CursoId);
+                if (curso == null)
+                {
+                    MostrarMensaje("Curso no encontrado.");
+                    return;
+                }
 
-                lnkVolverCurso.NavigateUrl = ResolveUrl($"~/Usuario/CursoDetalle.aspx?id={eval.CursoId}");
+                // --- Número de intento calculado ---
+                var numeroIntento = db.IntentosEvaluacion
+                    .Where(i => i.UsuarioId == intento.UsuarioId &&
+                                i.EvaluacionId == intento.EvaluacionId &&
+                                i.Id <= intento.Id)
+                    .Count();
 
-                pnlBody.Visible = true;
-                lblMsg.Visible = false;
+                // --- Respuestas del intento ---
+                var respuestas = db.IntentosRespuesta
+                    .Where(r => r.IntentoEvaluacionId == intento.Id)
+                    .ToList();
+
+                var totalPreguntas = respuestas.Count;
+
+                // ✅ Aquí el cambio: sólo usamos EsCorrecta
+                var correctas = respuestas.Count(r => r.EsCorrecta);
+                var incorrectas = totalPreguntas - correctas;
+
+                decimal porcentaje = 0;
+                if (totalPreguntas > 0)
+                    porcentaje = (decimal)correctas * 100m / totalPreguntas;
+
+                // --- Llenar labels ---
+                pnlResultado.Visible = true;
+                lblMensaje.Visible = false;
+
+                lblCurso.Text = curso.Titulo;
+                lblEvaluacion.Text = evaluacion.Titulo;
+                lblIntento.Text = $"{numeroIntento}";
+
+                lblTotalPreguntas.Text = totalPreguntas.ToString();
+                lblCorrectas.Text = correctas.ToString();
+                lblIncorrectas.Text = incorrectas.ToString();
+                lblPorcentaje.Text = porcentaje.ToString("0.0") + " %";
+
+                lblResultado.Text = intento.Aprobado ? "APROBADO" : "REPROBADO";
+
+                var fechaFin = intento.FechaFin ?? DateTime.UtcNow;
+                lblFechaTermino.Text = fechaFin.ToString("dd/MM/yyyy HH:mm");
+
+                // Link "Volver al curso"
+                lnkVolverCurso.HRef = "~/Usuario/CursoDetalle.aspx?Id=" + curso.Id;
             }
-        }
-
-        private new void Error(string msg)
-        {
-            pnlBody.Visible = false;
-            lblMsg.Text = msg;
-            lblMsg.Visible = true;
         }
     }
 }

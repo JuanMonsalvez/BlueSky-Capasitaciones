@@ -7,9 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap básico; ajusta a tus rutas -->
+    <!-- CSS base y de terceros -->
     <link href="<%: ResolveUrl("~/css/bootstrap.min.css") %>" rel="stylesheet" />
-    <link href="<%: ResolveUrl("~/content/css/app.css") %>" rel="stylesheet" />
+    <link href="<%: ResolveUrl("~/css/font-awesome.min.css") %>" rel="stylesheet" />
+    <link href="<%: ResolveUrl("~/css/owl.carousel.css") %>" rel="stylesheet" />
+    <link href="<%: ResolveUrl("~/css/owl.theme.default.min.css") %>" rel="stylesheet" />
+    <link href="<%: ResolveUrl("~/css/templatemo-style.css") %>" rel="stylesheet" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
 </head>
@@ -19,6 +24,19 @@
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
+                    <!-- Botón menú colapsable (visible en pantallas pequeñas) -->
+                    <button type="button"
+                            class="navbar-toggle collapsed"
+                            data-toggle="collapse"
+                            data-target="#mainNav"
+                            aria-expanded="false">
+                        <span class="sr-only">Mostrar/Ocultar menú</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <!-- Logo -->
                     <a class="navbar-brand" href="<%: ResolveUrl("~/") %>">BlueSky</a>
                 </div>
 
@@ -74,9 +92,28 @@
             <asp:ContentPlaceHolder ID="MainContent" runat="server" />
         </div>
 
-        <!-- jQuery + Bootstrap; tu Global ya mapea jquery para validadores, pero aquí incluimos para la UI -->
-        <script src="<%: ResolveUrl("~/js/jquery-3.7.1.min.js") %>"></script>
+        <!-- jQuery compatible con Bootstrap 3 -->
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+        <!-- Bootstrap 3 -->
         <script src="<%: ResolveUrl("~/js/bootstrap.min.js") %>"></script>
+
+        <!-- Activación explicita del dropdown -->
+        <script>
+            $(document).ready(function () {
+                console.log("jQuery cargado:", typeof jQuery !== "undefined");
+                console.log("Bootstrap cargado:", typeof $.fn.dropdown !== "undefined");
+
+                // Activamos todos los dropdown-toggle por si Bootstrap no lo hace solo
+                $('.dropdown-toggle').dropdown();
+
+                // Debug visual: para revisar si recibe el clic
+                $('.dropdown-toggle').on('click', function () {
+                    console.log("CLICK en dropdown-toggle");
+                });
+            });
+        </script>
+
     </form>
 </body>
 </html>

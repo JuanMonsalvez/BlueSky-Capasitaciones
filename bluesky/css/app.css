@@ -1,0 +1,359 @@
+﻿/* ============================
+   Home / Hero
+   ============================ */
+.hero-modern {
+    position: relative;
+    color: #fff;
+}
+
+.hero-modern__slider {
+    min-height: 420px;
+}
+
+.hero-modern__caption {
+    padding: 120px 0 100px;
+    background: radial-gradient(circle at top left, rgba(30,144,255,.75), rgba(10,25,47,.95));
+}
+
+.hero-kicker {
+    display: inline-block;
+    font-size: 0.9rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    opacity: .9;
+    margin-bottom: 8px;
+}
+
+.hero-title {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.hero-subtitle {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    opacity: .9;
+    margin-bottom: 20px;
+}
+
+.btn-hero,
+.btn-hero-alt {
+    padding: 10px 26px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.btn-hero-alt {
+    background: transparent;
+    border-width: 2px;
+}
+
+/* ============================
+   Secciones generales
+   ============================ */
+.section-pad-lg {
+    padding: 70px 0;
+}
+
+.bg-soft {
+    background: #f5f7fb;
+}
+
+.bg-section-muted {
+    background: #f3f4f7;
+}
+
+.bg-gradient-soft {
+    background: linear-gradient(135deg, #f5f9ff 0%, #eef3ff 50%, #fdfcff 100%);
+}
+
+.bg-dark-soft {
+    background: radial-gradient(circle at top, #1b2735, #0b1220);
+    color: #e6edf7;
+}
+
+/* ============================
+   Titles / Section headers
+   ============================ */
+.section-title--accent .feature-title,
+.section-title--accent h2 {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+}
+
+    .section-title--accent .feature-title::after,
+    .section-title--accent h2::after {
+        content: "";
+        display: block;
+        width: 56px;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #1e90ff, #58adff);
+        margin: 10px auto 0;
+    }
+
+.section-title--light h2,
+.section-title--light small {
+    color: #e6edf7;
+}
+
+.section-kicker {
+    display: block;
+    font-size: 0.85rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: #1e90ff;
+    margin-bottom: 6px;
+}
+
+.section-subtitle {
+    max-width: 560px;
+    margin: 6px auto 0;
+    font-size: .98rem;
+    color: #555;
+}
+
+/* ============================
+   Feature cards / Ruta
+   ============================ */
+.feature-card--modern {
+    border-radius: 18px;
+    padding: 22px 20px 20px;
+    background: #ffffff;
+    box-shadow: 0 18px 40px rgba(15, 76, 129, 0.08);
+    border: 1px solid rgba(24, 61, 95, 0.05);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+    .feature-card--modern .icon {
+        font-size: 2.4rem;
+        color: #1e90ff;
+        margin-bottom: 10px;
+    }
+
+    .feature-card--modern .chip {
+        font-size: .78rem;
+        background: #eef4ff;
+        color: #27496d;
+    }
+
+    .feature-card--modern:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 22px 50px rgba(15, 76, 129, 0.18);
+        border-color: rgba(30, 144, 255, .35);
+    }
+
+/* Linea de pasos */
+.progress-line--modern {
+    position: relative;
+    margin-top: 32px;
+}
+
+    .progress-line--modern::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 6%;
+        right: 6%;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #d0e3ff, #1e90ff, #d0e3ff);
+        opacity: .6;
+    }
+
+/* ============================
+   About / Visual
+   ============================ */
+.about-item--modern {
+    margin-bottom: 18px;
+}
+
+.about-item-inner--elevated {
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(15, 76, 129, 0.08);
+    padding: 14px 16px;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+    .about-item-inner--elevated:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(15, 76, 129, 0.12);
+    }
+
+    .about-item-inner--elevated .about-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 999px;
+        background: #e9f3ff;
+        color: #1e90ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+    }
+
+/* Visual derecha */
+.pro-visual--modern {
+    margin-top: 20px;
+}
+
+.pro-frame--glass {
+    position: relative;
+    border-radius: 22px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(219,234,254,0.9));
+    box-shadow: 0 24px 60px rgba(15, 76, 129, 0.25);
+}
+
+.pro-badge {
+    display: inline-block;
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .16em;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(13,110,253,0.12);
+    color: #0f4c81;
+}
+
+/* ============================
+   Team
+   ============================ */
+.team-card--modern {
+    border-radius: 20px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 18px 40px rgba(15, 76, 129, 0.12);
+    transition: transform .2s ease, box-shadow .2s ease, translate .2s ease;
+}
+
+    .team-card--modern .media-overlay {
+        background: linear-gradient(to top, rgba(7, 21, 43, .9), rgba(7, 21, 43, .0));
+    }
+
+    .team-card--modern:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 24px 60px rgba(15, 76, 129, 0.18);
+    }
+
+.badge-role {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 4px 10px;
+    font-size: .78rem;
+    border-radius: 999px;
+    background: #eef4ff;
+    color: #1e3a8a;
+}
+
+/* ============================
+   Courses
+   ============================ */
+.courses-thumb--modern {
+    border-radius: 18px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 16px 40px rgba(15, 76, 129, 0.1);
+    border: 1px solid rgba(148, 163, 184, .25);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+    .courses-thumb--modern .courses-top {
+        position: relative;
+    }
+
+    .courses-thumb--modern .courses-image img {
+        transform: scale(1.02);
+        transition: transform .25s ease;
+    }
+
+    .courses-thumb--modern:hover .courses-image img {
+        transform: scale(1.06);
+    }
+
+    .courses-thumb--modern:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 24px 60px rgba(15, 76, 129, 0.2);
+        border-color: rgba(37, 99, 235, .55);
+    }
+
+/* ============================
+   Testimonial
+   ============================ */
+.tst-card--modern {
+    border-radius: 16px;
+    padding: 18px 16px 20px;
+    background: radial-gradient(circle at top left, rgba(31, 41, 55, 0.96), rgba(17, 24, 39, 0.96));
+    border: 1px solid rgba(148, 163, 184, .35);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.85);
+    color: #e5e7eb;
+}
+
+    .tst-card--modern .tst-name {
+        color: #f9fafb;
+    }
+
+    .tst-card--modern .tst-text {
+        font-size: .95rem;
+        color: #d1d5db;
+    }
+
+    .tst-card--modern .tst-rating i {
+        color: #fbbf24;
+    }
+
+/* ============================
+   Contact
+   ============================ */
+.contact-modern {
+    background: radial-gradient(circle at top left, #e0f2fe, #f9fafb);
+}
+
+.contact-card {
+    border-radius: 18px;
+    padding: 26px 22px 30px;
+    background: rgba(255,255,255,0.92);
+    box-shadow: 0 20px 50px rgba(15, 76, 129, 0.18);
+    border: 1px solid rgba(191, 219, 254, .7);
+}
+
+.input-modern {
+    border-radius: 999px;
+    border-color: #cbd5f5;
+    box-shadow: none;
+    padding-left: 18px;
+}
+
+    .input-modern:focus {
+        border-color: #1e90ff;
+        box-shadow: 0 0 0 1px rgba(37, 99, 235, .35);
+    }
+
+.btn-pill {
+    border-radius: 999px !important;
+}
+
+/* Imagen contacto */
+.contact-image-pro--modern .img-frame-min--glow {
+    border-radius: 20px;
+    background: radial-gradient(circle at top, #1e90ff, #0b1120);
+    padding: 10px;
+    box-shadow: 0 24px 70px rgba(30, 64, 175, 0.6);
+}
+
+.contact-image-pro--modern img {
+    border-radius: 14px;
+}
+
+/* ============================
+   Modales
+   ============================ */
+.modal-card {
+    border-radius: 18px;
+    overflow: hidden;
+    border: 0;
+    box-shadow: 0 26px 70px rgba(15, 23, 42, 0.55);
+}
